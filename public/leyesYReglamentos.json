@@ -1,0 +1,577 @@
+{
+    "1": {
+        "estado": "Aguascalientes",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Aguascalientes"
+            },
+            {
+                "nombre": "Ley de Seguridad y Servicios Sociales para los Servidores Públicos del Estado de Aguascalientes",
+                "publicacion": "26/02/2018",
+                "ultimaReforma": "03/09/2018"
+            }
+        ],
+        "reglamentos": [
+            {
+                "nombre": "Reglamento para la Administración de Recursos Financieros e Inversiones del Instituto de Seguridad y Servicios Sociales para los Servidores Públicos del Estado de Aguascalientes",
+                "publicacion": "09/02/2002"
+            },
+            {
+                "nombre": "Reglamento de Prestaciones Económicas del Instituto de Seguridad y Servicios Sociales para los Servidores Públicos del Estado de Aguascalientes",
+                "publicacion": "10/06/2002"
+            }
+        ]
+    },
+    "2": {
+        "estado": "Baja California",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Baja California"
+            },
+            {
+                "nombre": "Ley del Instituto de Seguridad y Servicios Sociales de los Trabajadores del Gobierno y Municipios del Estado de Baja California",
+                "publicacion": "17/02/2015"
+            },
+            {
+                "nombre": "Ley que regula a los Trabajadores que refiere la Fracción I, apartado B, del Artículo 99 de la Constitución Política del Estado Libre y Soberano de Baja California, en materia de Seguridad Social",
+                "publicacion": "17/02/2015"
+            },
+            {
+                "nombre": "Ley que regula a los Trabajadores que refiere la Fracción II, Apartado B, del Artículo 99 de la Constitución Política del Estado Libre y Soberano de Baja California, en materia de Seguridad Social",
+                "publicacion": "17/02/2015",
+                "ultimaReforma": "11/03/2016"
+            }
+        ],
+        "reglamentos": [
+            {
+                "nombre": "Reglamento para el otorgamiento de pensiones a los asegurados del Instituto de Seguridad y Servicios Sociales de los Trabajadores del Gobierno y Municipios del Estado de Baja California",
+                "publicacion": "10/09/1984"
+            }
+        ]
+    },
+    "3": {
+        "estado": "Baja California Sur",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Baja California Sur"
+            },
+            {
+                "nombre": "Ley de los Trabajadores al Servicio de los Poderes del Estado y Municipios de Baja California Sur",
+                "publicacion": "23/02/2004",
+                "ultimaReforma": "31/12/2019"
+            }
+        ]
+    },
+    "4": {
+        "estado": "Campeche",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Campeche"
+            },
+            {
+                "nombre": "Ley de Seguridad y Servicios Sociales de los Trabajadores del Estado de Campeche",
+                "publicacion": "03/06/1987",
+                "ultimaReforma": "28/08/2019"
+            }
+        ]
+    },
+    "7": {
+        "estado": "Chiapas",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Chiapas"
+            },
+            {
+                "nombre": "Ley del Instituto de Seguridad Social de los Trabajadores del Estado de Chiapas",
+                "publicacion": "18/02/2020"
+            }
+        ]
+    },
+    "8": {
+        "estado": "Chihuahua",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Chihuahua"
+            },
+            {
+                "nombre": "Ley de Pensiones Civiles del Estado de Chihuahua",
+                "publicacion": "21/12/2013",
+                "ultimaReforma": "13/07/2019"
+            }
+        ]
+    },
+    "9": {
+        "estado": "Ciudad de México",
+        "leyes": [
+            {
+                "nombre": "Constitución Política de la Ciudad de México"
+            }
+        ]
+    },
+    "5": {
+        "estado": "Coahuila",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Coahuila"
+            },
+            {
+                "nombre": "Ley de Pensiones y Otros Beneficios Sociales para los Trabajadores al Servicio del Estado de Coahuila de Zaragoza",
+                "publicacion": "08/01/2016",
+                "ultimaReforma": "13/12/2016"
+            },
+            {
+                "nombre": "Ley de Pensiones Complementarias para Magistrados y Jueces del Poder Judicial del Estado de Coahuila de Zaragoza",
+                "publicacion": "03/10/2014"
+            },
+            {
+                "nombre": "Ley de Pensiones y Otros Beneficios Sociales para los Trabajadores de la Educación Pública del Estado de Coahuila de Zaragoza",
+                "publicacion": "08/01/2016",
+                "ultimaReforma": "13/12/2019"
+            },
+            {
+                "nombre": "Ley para la Implementación de los Sistemas de Pensiones de los Municipios del Estado de Coahuila de Zaragoza",
+                "publicacion": "03/10/2014",
+                "ultimaReforma": "02/10/2015"
+            },
+            {
+                "nombre": "Ley de Pensiones del Municipio de Acuña, Coahuila de Zaragoza",
+                "publicacion": "29/12/2015",
+                "ultimaReforma": "13/12/2019"
+            },
+            {
+                "nombre": "Ley de Pensiones del Municipio de Cuatro Ciénegas, Coahuila de Zaragoza",
+                "publicacion": "17/05/2016",
+                "ultimaReforma": "17/12/2019"
+            },
+            {
+                "nombre": "Ley de Pensiones del Municipio de Múzquiz, Coahuila de Zaragoza",
+                "publicacion": "06/10/2017",
+                "ultimaReforma": "13/12/2019"
+            },
+            {
+                "nombre": "Ley de Pensiones del Municipio de Ramos Arizpe, Coahuila de Zaragoza",
+                "publicacion": "29/12/2015",
+                "ultimaReforma": "13/12/2019"
+            },
+            {
+                "nombre": "Ley de Pensiones del Municipio de Zaragoza, Coahuila de Zaragoza",
+                "publicacion": "07/11/2017",
+                "ultimaReforma": "13/12/2019"
+            },
+            {
+                "nombre": "Ley de la Dirección de Pensiones de Frontera",
+                "publicacion": "05/04/2016"
+            },
+            {
+                "nombre": "Ley de la Dirección de Pensiones de Monclova",
+                "publicacion": "03/06/2016"
+            },
+            {
+                "nombre": "Ley de la Dirección de Pensiones de Piedras Negras",
+                "publicacion": "01/12/2015",
+                "ultimaReforma": "28/05/2019"
+            },
+            {
+                "nombre": "Ley del Organismo Público Descentralizado de la Administración Municipal Denominado “Dirección de Pensiones y Beneficios Sociales para los Trabajadores al Servicio del Municipio de Torreón, Coahuila”",
+                "publicacion": "19/02/2016",
+                "ultimaReforma": "13/12/2019"
+            },
+            {
+                "nombre": "Ley Orgánica del Organismo Público Descentralizado de la Administración Municipal Denominado “Dirección de Pensiones y Otros Beneficios Sociales para los Trabajadores al Servicio del Municipio de Saltillo”",
+                "publicacion": "29/12/2015",
+                "ultimaReforma": "13/12/2019"
+            }
+        ]
+    },
+    "6": {
+        "estado": "Colima",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Colima"
+            },
+            {
+                "nombre": "Ley de Pensiones de los Servidores Públicos del Estado de Colima",
+                "publicacion": "28/09/2018"
+            }
+        ]
+    },
+    "10": {
+        "estado": "Durango",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Durango"
+            },
+            {
+                "nombre": "Ley de Pensiones del Estado de Durango",
+                "publicacion": "05/11/2019",
+                "ultimaReforma": "05/12/2019"
+            },
+            {
+                "nombre": "Ley Reglamentaria del Artículo 72 y 73 de la Ley de Pensiones",
+                "publicacion": "20/01/1991"
+            }
+        ]
+    },
+    "11": {
+        "estado": "Guanajuato",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Guanajuato"
+            },
+            {
+                "nombre": "Ley de Seguridad Social del Estado de Guanajuato",
+                "publicacion": "20/12/2017"
+            }
+        ]
+    },
+    "12": {
+        "estado": "Guerrero",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Guerrero"
+            },
+            {
+                "nombre": "Ley Número 912 De Seguridad Social De Los Servidores Públicos Del Estado De Guerrero",
+                "publicacion": "27/12/2011"
+            }
+        ]
+    },
+    "13": {
+        "estado": "Hidalgo",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Hidalgo"
+            },
+            {
+                "nombre": "Ley de Préstamos, Compensaciones por Retiro y Jubilaciones",
+                "publicacion": "31/12/1956",
+                "ultimaReforma": "16/01/1981"
+            },
+            {
+                "nombre": "Ley de los Trabajadores Al Servicio de los Gobiernos Estatal y Municipales, así como de los Organismos Descentralizados, del Estado de Hidalgo",
+                "publicacion": "31/12/1987",
+                "ultimaReforma": "07/10/2019"
+            }
+        ]
+    },
+    "14": {
+        "estado": "Jalisco",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Jalisco"
+            },
+            {
+                "nombre": "Ley Del Instituto De Pensiones Del Estado De Jalisco",
+                "publicacion": "19/11/2009",
+                "ultimaReforma": "10/08/2019"
+            }
+        ]
+    },
+    "15": {
+        "estado": "México",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de México"
+            },
+            {
+                "nombre": "Ley de Seguridad Social para los Servidores Públicos del Estado de México y Municipios",
+                "publicacion": "03/01/2002",
+                "ultimaReforma": "01/06/2016"
+            }
+        ],
+        "reglamentos": [
+            {
+                "nombre": "Reglamento de Prestaciones del Instituto de Seguridad Social del Estado de México y Municipios",
+                "publicacion": "03/07/2009"
+            }
+        ]
+    },
+    "16": {
+        "estado": "Michoacán",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Michoacán"
+            },
+            {
+                "nombre": "Ley de Pensiones Civiles del Estado de Michoacán",
+                "publicacion": "08/05/1980",
+                "ultimaReforma": "05/10/2018"
+            }
+        ],
+        "reglamentos": [
+            {
+                "nombre": "Reglamento de la Ley de Pensiones Civiles para el Estado de Michoacán",
+                "publicacion": "NA"
+            }
+        ]
+    },
+    "17": {
+        "estado": "Morelos",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Morelos"
+            },
+            {
+                "nombre": "Ley del Servicio Civil del Estado de Morelos",
+                "publicacion": "06/09/2000",
+                "ultimaReforma": "08/03/2017"
+            }
+        ]
+    },
+    "18": {
+        "estado": "Nayarit",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Nayarit"
+            },
+            {
+                "nombre": "Ley de Pensiones para los Trabajadores al Servicio del Estado",
+                "publicacion": "30/07/1997",
+                "ultimaReforma": "27/09/2008"
+            }
+        ]
+    },
+    "19": {
+        "estado": "Nuevo León",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Nuevo León"
+            },
+            {
+                "nombre": "Ley del Instituto de Seguridad y Servicios Sociales de los Trabajadores del Estado de Nuevo León",
+                "publicacion": "13/11/1993",
+                "ultimaReforma": "25/10/2013"
+            }
+        ],
+        "reglamentos": [
+            {
+                "nombre": "Reglamento de Afiliación al Régimen de Seguridad Social del Instituto de Seguridad y Servicios Sociales de los Trabajadores del Estado de Nuevo León, de Servidores Públicos y sus Beneficiarios",
+                "publicacion": "23/10/2013"
+            }
+        ]
+    },
+    "20": {
+        "estado": "Oaxaca",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Oaxaca"
+            },
+            {
+                "nombre": "Ley de Pensiones para los Trabajadores del Gobierno del Estado de Oaxaca",
+                "publicacion": "07/06/1958",
+                "ultimaReforma": "28/11/2013"
+            },
+            {
+                "nombre": "Ley de Pensiones para los Trabajadores del Ayuntamiento del Municipio de Oaxaca de Juárez",
+                "publicacion": "16/12/1978"
+            },
+            {
+                "nombre": "Ley de Pensiones para los Integrantes de las Instituciones Policiales de la Secretaría de Seguridad pública del Estado de Oaxaca",
+                "publicacion": "22/10/2015"
+            }
+        ],
+        "reglamentos": [
+            {
+                "nombre": "Reglamento de Operación de la Oficina de Pensiones del Estado de Oaxaca",
+                "publicacion": "14/05/2012",
+                "ultimaReforma": "28/11/2015"
+            },
+            {
+                "nombre": "Reglamento Interno de la Oficina de Pensiones del Estado de Oaxaca",
+                "publicacion": "NA"
+            }
+        ]
+    },
+    "21": {
+        "estado": "Puebla",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Puebla"
+            },
+            {
+                "nombre": "Ley del Instituto de Seguridad y Servicios Sociales de los Trabajadores al Servicio de los Poderes del Estado de Puebla",
+                "publicacion": "19/12/2003",
+                "ultimaReforma": "18/11/2014"
+            }
+        ]
+    },
+    "22": {
+        "estado": "Querétaro",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Querétaro"
+            },
+            {
+                "nombre": "Ley de los Trabajadores del Estado de Querétaro",
+                "publicacion": "10/03/2009",
+                "ultimaReforma": "17/01/2020"
+            }
+        ]
+    },
+    "23": {
+        "estado": "Quintana Roo",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Quintana Roo"
+            },
+            {
+                "nombre": "Ley de Seguridad Social de los Servidores Públicos del Estado, Municipios y Organismos Públicos Descentralizados del Estado de Quintana Roo",
+                "publicacion": "14/04/1989"
+            }
+        ]
+    },
+    "24": {
+        "estado": "San Luis Potosí",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de San Luis Potosí"
+            },
+            {
+                "nombre": "Ley de Pensiones y Prestaciones Sociales Para los Trabajadores al Servicio del Estado de San Luís Potosí",
+                "publicacion": "21/05/2001"
+            }
+        ],
+        "reglamentos": [
+            {
+                "nombre": "Reglamento de la Ley de Pensiones y Prestaciones Sociales Para los Trabajadores al Servicio del Estado de San Luís Potosí",
+                "publicacion": "16/02/2002"
+            }
+        ]
+    },
+    "25": {
+        "estado": "Sinaloa",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Sinaloa"
+            },
+            {
+                "nombre": "Ley que crea el Instituto de Seguridad y Servicios Sociales de los Trabajadores de la Educación del Estado de Sinaloa",
+                "publicacion": "11/03/1974",
+                "ultimaReforma": "21/01/1978"
+            },
+            {
+                "nombre": "Ley de Pensiones para el Estado de Sinaloa",
+                "publicacion": "30/03/2009",
+                "ultimaReforma": "03/02/2017"
+            }
+        ]
+    },
+    "26": {
+        "estado": "Sonora",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Sonora"
+            },
+            {
+                "nombre": "Ley del Instituto de Seguridad y Servicios Sociales de los Trabajadores del Estado de Sonora",
+                "publicacion": "31/12/1962",
+                "ultimaReforma": "03/05/2018"
+            }
+        ],
+        "reglamentos": [
+            {
+                "nombre": "Reglamento de pensiones del Instituto de Seguridad y Servicios Sociales de los Trabajadores del Estado de Sonora",
+                "publicacion": "06/07/2015"
+            }
+        ]
+    },
+    "27": {
+        "estado": "Tabasco",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Tabasco"
+            },
+            {
+                "nombre": "Ley de Seguridad Social del Estado de Tabasco",
+                "publicacion": "31/12/2015",
+                "ultimaReforma": "15/06/2019"
+            }
+        ],
+        "reglamentos": [
+            {
+                "nombre": "Reglamento de la Ley de Seguridad Social del Estado de Tabasco",
+                "publicacion": "16/07/2016"
+            }
+        ]
+    },
+    "28": {
+        "estado": "Tamaulipas",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Tamaulipas"
+            },
+            {
+                "nombre": "Ley del Instituto de Previsión y Seguridad Social del Estado de Tamaulipas",
+                "publicacion": "01/01/2015",
+                "ultimaReforma": "20/08/2019"
+            }
+        ]
+    },
+    "29": {
+        "estado": "Tlaxcala",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Tlaxcala"
+            },
+            {
+                "nombre": "Ley de Pensiones Civiles del Estado de Tlaxcala",
+                "publicacion": "25/10/2013"
+            }
+        ]
+    },
+    "30": {
+        "estado": "Veracruz",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Veracruz"
+            },
+            {
+                "nombre": "Ley de Pensiones del Estado de Veracruz de Ignacio de la Llave",
+                "publicacion": "18/06/2014",
+                "ultimaReforma": "12/12/2015"
+            },
+            {
+                "nombre": "Ley para el otorgamiento de pensiones a deudos de integrantes de las fuerzas armadas caídas en cumplimiento del deber",
+                "publicacion": "18/02/2011"
+            },
+            {
+                "nombre": "Ley que Reconoce el derecho de las personas físicas mayores de setenta años de edad, que no tengan ingreso alguno y sin la protección de los sistemas de seguridad social del Estado o de la Federación, a recibir una pensión alimenticia del gobierno del Estado de Veracruz de Ignacio de la Llave",
+                "publicacion": "15/02/2015",
+                "ultimaReforma": "09/05/2014"
+            }
+        ]
+    },
+    "31": {
+        "estado": "Yucatán",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Yucatán"
+            },
+            {
+                "nombre": "Ley de Seguridad Social para los Servidores Públicos del estado de Yucatán, de sus municipios, de sus Organismos Públicos Coordinados Descentralizados de Carácter Estatal",
+                "publicacion": "10/09/1976",
+                "ultimaReforma": "20/11/2017"
+            },
+            {
+                "nombre": "Ley Orgánica del Poder Judicial del Estado de Yucatán",
+                "publicacion": "23/09/1970"
+            },
+            {
+                "nombre": "Ley de Pensiones para los Ex-gobernadores del Estado de Yucatán",
+                "publicacion": "03/01/1994"
+            }
+        ]
+    },
+    "32": {
+        "estado": "Zacatecas",
+        "leyes": [
+            {
+                "nombre": "Constitución Política del Estado de Zacatecas"
+            },
+            {
+                "nombre": "Ley del Instituto de Seguridad y Servicios Sociales del Estado de Zacatecas",
+                "publicacion": "21/03/2015"
+            }
+        ]
+    }
+}
