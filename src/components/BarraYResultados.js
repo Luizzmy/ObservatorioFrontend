@@ -11,7 +11,8 @@ function BarraYResultados({ tipo }) {
     const [words, setWords] = useState(null)
     const [data, setData] = useState()
     const [leyes, setLeyes] = useState()
-    const [tipoBusq, settipoBusq] = useState()
+    const [leySelect, setLeySelect] = useState()
+    const [artSelect, setArtSelect] = useState()
 
     useEffect(() => {
         function getData() {
@@ -43,17 +44,20 @@ function BarraYResultados({ tipo }) {
         setWords(e.target.value)
     };
 
-    const handleLeyChange = e => {
-        setWords(e)
+    const handleOnSelect = e => {
+        setLeySelect(e)
+        console.log(e)
     };
 
-    const handleArtChange = e => {
-        setWords(e)
-    };
 
     const handleArtSearch = (value) => {
-        setWords(value)
+        if(leySelect){
+            setArtSelect(value)
+        } else {
+            message.error("Por favor, seleccione una ley antes de ingresar el artículo")
+        }
         console.log(value)
+        
     }
 
 
@@ -81,7 +85,7 @@ function BarraYResultados({ tipo }) {
 
     return (
         <div>
-            <Input.Search size="large" placeholder={placeholders} onSearch={handleSearch} enterButton />
+            <Input.Search size="large" placeholder={placeholders} onChange={tipo!="articulo" ? handleChange: null} onSearch={handleSearch} enterButton />
             <br/>
             <br/>
             {tipo === "articulo" && leyes ?
@@ -94,13 +98,13 @@ function BarraYResultados({ tipo }) {
                             marginBottom:"5px"
                         }}
                         options={leyes}
-                        onChange={handleLeyChange}
-                        placeholder="Busque una ley por nombre"
+                        onSelect={handleOnSelect}
+                        placeholder="Seleccione una ley o reglamento"
                         filterOption={(inputValue, option) =>
                             option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
                         }
                     />
-                    <Input.Search size="large" placeholder="No. de articulo" onChange={handleArtChange} onSearch={handleArtSearch} enterButton />
+                    <Input.Search size="large" placeholder="No. de articulo" onSearch={handleArtSearch} enterButton />
                 </div>
                 :
                 null}
@@ -110,7 +114,7 @@ function BarraYResultados({ tipo }) {
                 tipo === "estado" ?
                     <CollapseEstados tipo={tipo} words={words} data={data} />
                     :
-                    <ResultadosCompArt data={data} words={words} tipoBusq={tipoBusq} />
+                    <ResultadosCompArt data={data} words={words} leySelect={leySelect} artSelect={artSelect} />
 
             }
         </div>
