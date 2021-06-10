@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Col, Row, List, Typography } from 'antd'
+import ModifiedText from './ModifiedText'
 
 const { Text } = Typography
 
-function ResultadosCompArt({ words, data, leySelect, artSelect }) {
+function ResultadosCompArt({ words, data, leySelect, artSelect, leyes }) {
 
+    
     const [articulos, setArticulos] = useState()
+    
 
     useEffect(() => {
         function filterData(data, words) {
@@ -35,15 +38,13 @@ function ResultadosCompArt({ words, data, leySelect, artSelect }) {
 
 
     useEffect(() => {
-        console.log(leySelect)
-        console.log(artSelect)
-        console.log(data)
         function filterData(leySelect, artSelect, data) {
             let res = []
             if (artSelect) {
                 console.log("test")
                 for (let i in data) {
                     for (let j in data[i]) {
+
                         for (let k in data[i][j]) {
                             if (j == leySelect & k.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
                                 .includes(artSelect.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))) {
@@ -82,7 +83,7 @@ function ResultadosCompArt({ words, data, leySelect, artSelect }) {
                                         <>
                                             <Text>Entidad:<b>{item.estado}</b></Text><br />
                                             <Text>Ley/Reglamento:<b>{item.ley}</b></Text><br />
-                                            <Text>{item.texto}</Text><br />
+                                            <ModifiedText text={item.texto} leyes={leyes} data={data} leyAct={item.ley} estadoAct={item.estado}/><br />
                                         </>
                                     }
                                 />

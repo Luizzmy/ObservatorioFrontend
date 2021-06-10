@@ -3,7 +3,7 @@ import { Row, Col, Collapse } from 'antd';
 import ResultadosDosColumnas from './ResultadosDosColumnas';
 const { Panel } = Collapse;
 
-function CollapseEstados({ tipo, words, data }) {
+function CollapseEstados({ tipo, words, data, leyes }) {
 
     function callback(e) {
         console.log(e);
@@ -14,7 +14,7 @@ function CollapseEstados({ tipo, words, data }) {
         let n = 0
         for (let i in data) {
             res.push(<Panel header={i} key={n}>
-                <ResultadosDosColumnas data={data[i]} />
+                <ResultadosDosColumnas data={data[i]} leyesObjs={leyes} datatot={data} />
             </Panel>)
             n = n + 1
         }

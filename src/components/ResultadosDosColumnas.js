@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {Col, Row, List, Button} from 'antd'
+import ModifiedText from './ModifiedText'
 
 function makeArticulos(name){
     let artLey=[]
@@ -13,7 +14,7 @@ function makeArticulos(name){
 }
 
 
-function ResultadosDosColumnas({data}) {
+function ResultadosDosColumnas({data, leyesObjs, datatot}) {
 
     const [leyes, setLeyes] = useState([])
     const [articulos, setArticulos] = useState([])
@@ -30,7 +31,6 @@ function ResultadosDosColumnas({data}) {
             }
             setLeyes(res)
             setArticulos(makeArticulos(res[0].articulos))
-            console.log(res[0])
             setSelected(res[0])
         }
         getLeyes(data)
@@ -70,7 +70,9 @@ function ResultadosDosColumnas({data}) {
       <List.Item >
         <List.Item.Meta
           title={item.articulo}
-        description={<><p>{item.contenido.texto}</p></>}
+        description={<>
+        <ModifiedText text={item.contenido.texto} leyes={leyesObjs} data={data} leyAct={selected.nombre} datatot={datatot} />
+        </>}
         />
       </List.Item>
     )}

@@ -112,9 +112,9 @@ function BarraYResultados({ tipo }) {
                 <ListaResultados tipo={tipo} words={words} />
                 :
                 tipo === "estado" ?
-                    <CollapseEstados tipo={tipo} words={words} data={data} />
+                    <CollapseEstados tipo={tipo} words={words} data={data} leyes={leyes} />
                     :
-                    <ResultadosCompArt data={data} words={words} leySelect={leySelect} artSelect={artSelect} />
+                    <ResultadosCompArt data={data} words={words} leySelect={leySelect} artSelect={artSelect} leyes={leyes} />
 
             }
         </div>

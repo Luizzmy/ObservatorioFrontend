@@ -4,6 +4,7 @@ import LayoutApp from './components/Layout'
 import Home from './pages/Home';
 import Buscador from './pages/Buscador';
 import NotFound from './components/404/NotFound.js';
+import Escenarios from './pages/Escenarios';
 
 const Router = () => (
   <BrowserRouter>
@@ -11,6 +12,7 @@ const Router = () => (
     <Switch>
       <Route exact path="/" component={Home} />
       <Route path="/buscador/:tipo" component={Buscador} />
+      <Route path="/escenarios" component={Escenarios} />
       <Route component={NotFound} />
     </Switch>
     </LayoutApp>
