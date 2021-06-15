@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import ReactECharts from 'echarts-for-react'
 import { Spin, Space} from 'antd'
 
-function BarrasChart({data}) {
+function BarrasChart({data, variable}) {
+    console.log(variable)
 
     const [options, setOptions] = useState()
 
@@ -86,7 +87,7 @@ data.forEach(e => {
 console.log(entidades)
 let series=[]
 data.forEach(e=>{
-    series.push(e[1])
+    series.push(e[variable[0]])
 })
 
 let filteredData=data.filter(e=>e[0]==="Aguascalientes")
@@ -129,16 +130,19 @@ console.log(filteredData[0].slice(1,filteredData[0].length))
                     type: 'value'
                 },
                 series: [{
-                    name:"activos-hombres",
+                    name:`${variable[1]}`,
                     data: series.slice(1, entidades.length-1),
                     type: 'bar',
+                    itemStyle:{
+                        color:"#306151"
+                    },
                     // label: labelOption
                 }]
             }
             setOptions(option)
         }
         makeOptions()
-    }, [])
+    }, [variable])
 
 
     return (

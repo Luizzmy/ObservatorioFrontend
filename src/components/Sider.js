@@ -27,7 +27,11 @@ function SiderMenu() {
     }
     return (
         <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-            <div className="logo" />
+            <div className="logo" style={{backgroundColor: "rgba(255, 255, 255, 0.6)"}}>
+            <img
+                height="80px"
+                src="https://slack-imgs.com/?c=1&o1=ro&url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2Ff%2Ff9%2FLogo_BID_Espa%25C3%25B1ol.png%2F1200px-Logo_BID_Espa%25C3%25B1ol.png"/>
+            </div>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                 <Menu.Item key="1" icon={<PieChartOutlined />}>
                     <Link to={"/escenarios"}>
@@ -54,10 +58,10 @@ function SiderMenu() {
                 <Menu.Item key="5" icon={<FileOutlined />}>
                     Descargas
             </Menu.Item>
-                <SubMenu key="sub2" icon={<TeamOutlined />} title="Ajustes">
+                {/* <SubMenu key="sub2" icon={<TeamOutlined />} title="Ajustes">
                     <Menu.Item key="6">Team 1</Menu.Item>
                     <Menu.Item key="7">Team 2</Menu.Item>
-                </SubMenu>
+                </SubMenu> */}
                 <Menu.Item key="8" icon={<LogoutOutlined />}>
                     Cerrar sesión
             </Menu.Item>

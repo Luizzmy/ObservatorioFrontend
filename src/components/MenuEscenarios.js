@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Menu, Dropdown, Button, message, Space, Tooltip, Typography, Col, Row, Checkbox, } from 'antd';
+import { Menu, Dropdown, Button, message, Space, Skeleton, Tooltip, Typography, Col, Row, Checkbox, } from 'antd';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import LineasChart from './LineasChart';
 import { obtainData } from '../services/index'
@@ -8,44 +8,57 @@ import { obtainDemo } from '../services/index';
 
 const { Text, Title } = Typography
 
+const searchRegExp = /\s/g;
+const replaceWith = '-';
+
 function MenuEscenarios() {
 
   const [data, setData] = useState()
   const [demo, setDemo] = useState()
-  const [escenario1, setEscenario1] = useState("PRL1")
-  const [escenario2, setEscenario2] = useState("CSI")
-  const [entidad, setEntidad] = useState("Aguascalientes")
-  const [seriesSelec, setSeriesSelec] = useState(["egresos_pcp"])
+  const [escenario1, setEscenario1] = useState(["PRL1"])
+  const [escenario2, setEscenario2] = useState(["CSI","SSI"])
+  const [entidad, setEntidad] = useState(["Aguascalientes"])
+  const [seriesSelec, setSeriesSelec] = useState(["Flujos Activos GA"])
+  const [demoSelec, setDemoSelec] = useState([1,"activos-hombres"])
+  const [loading, setLoading]=useState(true)
+
+  function makeQuery(origState){
+    let arr=[]
+    origState.forEach(e=>{
+      arr.push(e.replace(searchRegExp, replaceWith))
+    })
+    return arr.join(",")
+  }
+
 
   useEffect(() => {
     async function getEscenario(){
-      const {data}=await obtainData(`${entidad},${escenario1},${escenario2}`)
+      setLoading(true)
+      let escQuery=[]
+      escenario1.forEach(e=>{
+        escenario2.forEach(e1=>{
+          escQuery.push(`${e}-${e1}`)
+        })
+      })
+      escQuery=escQuery.join(",")
+      const {data}=await obtainDemo(escQuery,makeQuery(seriesSelec), makeQuery(entidad))
       console.log(data)
-      setData(data[0])
+      setData(data)
+      // setLoading(false)
     }
-    async function getDemo(){
-      const {data}=await obtainDemo()
-      setDemo(data[0])
-    }
-    getEscenario()
-    getDemo()
-  }, [entidad, escenario1, escenario2])
-  // useEffect(() => {
-  //   let res = []
-  //   let intArr = []
-  //   async function getData() {
-  //     const { data } = await obtainData()
-  //     console.log(data[0])
-  //     setData(data[0])
-  //   }
-  //   async function getDemo() {
-  //     const { data } = await obtainDemo()
-  //     setDemo(data[0])
-  //   }
-  //   getData()
-  //   getDemo()
-  // }, [])
 
+    getEscenario()
+  }, [entidad, escenario1, escenario2])
+
+  useEffect(() => {
+    async function getDemo(){
+      // const {data}=await obtainDemo()
+      // setDemo(data[0])
+    }
+    getDemo()
+  }, [demoSelec])
+  
+  
   const plainOptions = ['Aguascalientes', 'Baja California (Burocracia)',
     'Baja California (Magisterio)', 'Campeche', 'Chiapas', 'Chihuahua',
     'CDMX (CAPREPA)', 'CDMX (CAPREPOL)', 'CDMX (CAPTRALIR)',
@@ -59,32 +72,28 @@ function MenuEscenarios() {
     'San Luis Potosí (Magisterio)', 'San Luis Potosí (Telesecundaria)',
     'Sinaloa (Gobierno)', 'Sinaloa (ISSSTEESIN)', 'Sonora', 'Tabasco',
     'Tamaulipas', 'Tlaxcala', 'Veracruz ', 'Yucatán', 'Zacatecas']
-  const seriesDeTiempo=["fecha",
-  "egresos_pcp",
-  "egresos_ga",
-  "egresos_ng",
-  "egresos_total",
-  "flujos_activos_ga",
-  "flujos_activos_ng",
-  "activos_total",
-  "aportacion_ext_ga",
-  "aportacion_ext_ng",
-  "aportacion_ext_total",
-  "costo_patron_ga",
-  "costo_patron_ng",
-  "costo_patron_total",
-  "reserva_ga",
-  "reserva_ng",
-  "reserva_total",
-  "presupuesto",
-  "nomina",
-  "pensionados_pcp",
-  "pensionados_ga",
-  "pensionados_ng",
-  "total_pensionados",
-  "activos_ga",
-  "activos_ng",
-  "total_activos"]
+  const seriesDeTiempo=['Flujos Egresos PCP', 'Flujos Egresos GA', 'Flujos Egresos NG',
+  'Flujos Egresos Total', 'Flujos Activos GA', 'Flujos Activos NG',
+  'Flujos Activos Total', 'Flujos Ap Ext GA', 'Flujos Ap Ext NG',
+  'Flujos Ap Ext Total', 'Flujos CP GA', 'Flujos CP NG',
+  'Flujos CP Total', 'Flujos Reserva GA', 'Flujos Reserva NG',
+  'Flujos Reserva Total', 'Flujos Presupuesto', 'Flujos Nomina', 
+  'Pensionados PCP', 'Pensionados GA', 'Pensionados NG', 
+  'Nomina GA', 'Nomina NG']
+  
+  const variablesDemo=[
+    "activos-hombres",
+    "activos-mujeres",
+    "activos-total",
+    "pensionados-hombres",
+    "pensionados-mujeres",
+    "pensionados-total",
+    "activos-sueldo",
+    "activos-antiguedad",
+    "activos-edad",
+    "pensionados-sueldo",
+    "pensionados-edad"
+]
 
 
     function handleMenuClick(e) {
@@ -104,6 +113,29 @@ function MenuEscenarios() {
     setEscenario2(e.key)
     console.log('click', e);
   }
+  function handleMenuSeries(e) {
+    setSeriesSelec(e.key)
+    // setLoading(true)
+    // let arr=seriesSelec
+    // if(!arr.includes(e.key)){
+    //   arr.push(e.key)
+    //   const uniqueValues=[...new Set(arr)]
+    //   arr=uniqueValues
+    //   setSeriesSelec(uniqueValues)
+    // } else{
+    //   let b = arr.filter(s => s === e.key)
+    //   b.forEach(f => arr.splice(arr.findIndex(s => s === f),1))
+    //   const uniqueValues=[...new Set(arr)]
+    //   arr=uniqueValues
+    //   setSeriesSelec(uniqueValues)
+    // }
+    // setLoading(false)
+  }
+
+  function handleMenuDemo(e) {
+    setDemoSelec([variablesDemo.indexOf(e.key)+1,e.key])
+    console.log(variablesDemo.indexOf(e.key))
+  }
 
   const menus = plainOptions.map((e) => {
     return (
@@ -112,17 +144,43 @@ function MenuEscenarios() {
       </Menu.Item>
     )
   });
-  const menuSeries = plainOptions.map((e) => {
+
+  const menuST = seriesDeTiempo.map((e) => {
     return (
       <Menu.Item key={e} >
-        {e}
+          {e}
       </Menu.Item>
     )
   });
+
+  const menuVD = variablesDemo.map((e) => {
+    return (
+      <Menu.Item key={e} >
+          {e}
+      </Menu.Item>
+    )
+  });
+
   const menuEntidades = () => {
     return (
       <Menu onClick={handleMenuEntidades} style={{overflow: 'scroll', height: 200}}>
         {menus}
+      </Menu>
+    )
+  }
+
+  const menuSeries = () => {
+    return (
+      <Menu onClick={handleMenuSeries} style={{overflow: 'scroll', height: 200}}>
+        {menuST}
+      </Menu>
+    )
+  }
+
+  const menuDemo = () => {
+    return (
+      <Menu onClick={handleMenuDemo} style={{overflow: 'scroll', height: 200}}>
+        {menuVD}
       </Menu>
     )
   }
@@ -191,7 +249,7 @@ function MenuEscenarios() {
                 {entidad}<DownOutlined />
               </Button>
             </Dropdown>
-            <Dropdown overlay={menu}>
+            <Dropdown overlay={menuSeries}>
               <Button>
                 Series de tiempo<DownOutlined />
               </Button>
@@ -204,19 +262,22 @@ function MenuEscenarios() {
 
       <Row>
         <Col sm={24}>
-          {data ?
-            <LineasChart title="Escenario pensionario" data={data} />
+          {loading ?
+            <div style={{height:600, width:"100%"}}>
+<Skeleton />
+            </div>
             :
-            null}
+            <LineasChart title="Escenario pensionario" data={data} series={seriesSelec} />
+            }
         </Col>
         <Col sm={24}>
-        <Dropdown overlay={menu}>
+        <Dropdown overlay={menuDemo}>
               <Button>
-                Variables Demográficas<DownOutlined />
+                {demoSelec[1]}<DownOutlined />
               </Button>
             </Dropdown>
           {demo ?
-            <BarrasChart data={demo} />
+            <BarrasChart data={demo} variable={demoSelec} />
             :
             null
           }

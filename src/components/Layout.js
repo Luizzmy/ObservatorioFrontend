@@ -1,5 +1,5 @@
 import React from 'react'
-import { Layout} from 'antd';
+import { Layout, Row, Col} from 'antd';
 import SiderMenu from './Sider'
 import Breadcrumbs from './Breadcrumbs';
 
@@ -14,7 +14,16 @@ function LayoutApp({children}) {
         <Layout style={{ minHeight: '100vh' }}>
         <SiderMenu/>
         <Layout className="site-layout">
-          <Header className="site-layout-background" style={{ padding: 0 }} />
+          <Header className="site-layout-background" style={{ padding: 0}}>
+
+          <Row justify="end" align="middle" style>
+            {/* <div style={{margin:"2px 35px 0 0"}}> */}
+          <img 
+                height="64px"
+                src="./logoH.png"/>
+            {/* </div> */}
+          </Row>
+            </Header>
           <Content style={{ margin: '0 16px', textAlign:"left" }}>
             <Breadcrumbs/>
             <div className="site-layout-background" 

@@ -3,36 +3,45 @@ import ReactECharts from 'echarts-for-react'
 import { Spin, Space} from 'antd'
 
 
-function LineasChart({title, data}) {
+function LineasChart({title, data, series}) {
 
     const [options, setOptions] = useState()
+    const [seriesSelec, setSeriesSelec] = useState()
+    const [seriesNames, setSeriesNames] = useState()
 
+
+    // useEffect(() => {
+    //     function makeSeries(){
+    //         let seriesArr=[]
+    //         let seriesNames=[]
+    //             series.forEach(s=>{
+    //                 seriesArr.push(
+    //                     {
+    //                     type: 'line',
+    //                     datasetId: 'dataset_since_2019',
+    //                     showSymbol: false,
+    //                     name:`${s}`,
+    //                     encode: {
+    //                         x: 'fecha',
+    //                         y: `${s}`,
+    //                         itemName: 'fecha',
+    //                         tooltip: [`${s}`],
+    //                     }
+    //                 }
+    //                 )
+    //             seriesNames.push(s)
+    //             })
+    //         setSeriesSelec(seriesArr)
+    //         setSeriesNames(seriesNames)
+    //     }
+    //     makeSeries()
+    // }, [series, data])
     useEffect(() => {
         async function makeOptions(){
-                let seriesArr=[]
-                let seriesNames=[]
-                let selectedSeries=["egresos_pcp"]
-                for(let i=0; i<selectedSeries.length; i++){
-                    seriesArr.push(
-                        // data[0][i]
-                        {
-                        type: 'line',
-                        datasetId: 'dataset_since_2019',
-                        showSymbol: false,
-                        name:`${selectedSeries[i]}`,
-                        encode: {
-                            x: 'fecha',
-                            y: `${selectedSeries[i]}`,
-                            itemName: 'fecha',
-                            tooltip: [`${selectedSeries[i]}`],
-                        }
-                    }
-                    )
-                    i=i+1
-                    seriesNames.push(selectedSeries[i])
-                    
-                }
-                console.log(seriesArr)
+            console.log(series)
+            // if(seriesSelec){
+
+            
                 const option = {
                     dataset: [{
                         id: 'dataset_raw',
@@ -67,49 +76,30 @@ function LineasChart({title, data}) {
                         // name: 'egresos_pcp'
                     },
                     series: 
-                    seriesArr
-                    // [{
-                    //     type: 'line',
-                    //     datasetId: 'dataset_since_2019',
-                    //     showSymbol: false,
-                    //     encode: {
-                    //         x: 'fecha',
-                    //         y: 'egresos_pcp',
-                    //         itemName: 'fecha',
-                    //         tooltip: ['egresos_pcp'],
-                    //     }
-                    // },
-                    // {
-                    //     type: 'line',
-                    //     datasetId: 'dataset_since_2019',
-                    //     showSymbol: false,
-                    //     encode: {
-                    //         x: 'fecha',
-                    //         y: 'egresos_ga',
-                    //         itemName: 'fecha',
-                    //         tooltip: ['egresos_ga'],
-                    //     }
-                    // }, 
-                    // {
-                    //     type: 'line',
-                    //     datasetId: 'dataset_since_1950_of_france',
-                    //     showSymbol: false,
-                    //     encode: {
-                    //         x: 'Year',
-                    //         y: 'Income',
-                    //         itemName: 'Year',
-                    //         tooltip: ['Income'],
-                    //     }
-                    // }
-                //  ]
+                     {
+                     type: 'line',
+                     datasetId: 'dataset_since_2019',
+                     showSymbol: false,
+                     name:`${series}`,
+                     itemStyle:{
+                         color:"#306151"
+                     },
+                     encode: {
+                         x: 'fecha',
+                         y: `${series}`,
+                         itemName: 'fecha',
+                         tooltip: [`${series}`],
+                     }
+                 }
+                    
                 };
             setOptions(option)
 
-
             }
+            // }
 
         makeOptions()
-    }, [data])
+    }, [data, series])
 
 
     return (

@@ -8,14 +8,14 @@ import Escenarios from './pages/Escenarios';
 
 const Router = () => (
   <BrowserRouter>
-  <LayoutApp>
     <Switch>
       <Route exact path="/" component={Home} />
+      <LayoutApp>
       <Route path="/buscador/:tipo" component={Buscador} />
       <Route path="/escenarios" component={Escenarios} />
       <Route component={NotFound} />
+      </LayoutApp>
     </Switch>
-    </LayoutApp>
   </BrowserRouter>
 );
 
