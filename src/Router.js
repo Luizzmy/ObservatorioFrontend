@@ -5,6 +5,8 @@ import Home from './pages/Home';
 import Buscador from './pages/Buscador';
 import NotFound from './components/404/NotFound.js';
 import Escenarios from './pages/Escenarios';
+import Demograficos from './pages/Demograficos';
+
 
 const Router = () => (
   <BrowserRouter>
@@ -13,6 +15,7 @@ const Router = () => (
       <LayoutApp>
       <Route path="/buscador/:tipo" component={Buscador} />
       <Route path="/escenarios" component={Escenarios} />
+      <Route path="/demograficos" component={Demograficos} />
       <Route component={NotFound} />
       </LayoutApp>
     </Switch>

@@ -10,3 +10,7 @@ const service = axios.create({
 
 export const obtainDemo=(escenario, series, edos)=>
   service.get(`/demoResumen/${escenario}/${series}/${edos}`)
+
+
+export const obtainDemoTotal=(escenario, series)=>
+service.get(`/demoResumen/${escenario}/${series}`)

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Menu, Dropdown, Button, message, Space, Skeleton, Tooltip, Typography, Col, Row, Checkbox, } from 'antd';
+import { Space, Spin, Typography, Col, Row, Select, Empty } from 'antd';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import LineasChart from './LineasChart';
-import { obtainData } from '../services/index'
+import { obtainData, obtainDemoTotal } from '../services/index'
 import BarrasChart from './BarrasChart';
 import { obtainDemo } from '../services/index';
 
 const { Text, Title } = Typography
+
+const { Option } = Select;
 
 const searchRegExp = /\s/g;
 const replaceWith = '-';
@@ -14,13 +16,12 @@ const replaceWith = '-';
 function MenuEscenarios() {
 
   const [data, setData] = useState()
-  const [demo, setDemo] = useState()
   const [escenario1, setEscenario1] = useState(["PRL1"])
-  const [escenario2, setEscenario2] = useState(["CSI","SSI"])
-  const [entidad, setEntidad] = useState(["Aguascalientes"])
+  const [escenario2, setEscenario2] = useState(["CSI"])
+  const [entidad, setEntidad] = useState([])
   const [seriesSelec, setSeriesSelec] = useState(["Flujos Activos GA"])
-  const [demoSelec, setDemoSelec] = useState([1,"activos-hombres"])
   const [loading, setLoading]=useState(true)
+  const [seriesGraph, setSeriesGraph] = useState()
 
   function makeQuery(origState){
     let arr=[]
@@ -33,38 +34,55 @@ function MenuEscenarios() {
 
   useEffect(() => {
     async function getEscenario(){
-      setLoading(true)
-      let escQuery=[]
-      escenario1.forEach(e=>{
-        escenario2.forEach(e1=>{
-          escQuery.push(`${e}-${e1}`)
+      if(escenario1.length>0 && escenario2.length>0 && seriesSelec.length>0){
+        setLoading(true)
+        let escQuery=[]
+        escenario1.forEach(e=>{
+          escenario2.forEach(e1=>{
+            escQuery.push(`${e}-${e1}`)
+          })
         })
-      })
-      escQuery=escQuery.join(",")
-      const {data}=await obtainDemo(escQuery,makeQuery(seriesSelec), makeQuery(entidad))
-      console.log(data)
-      setData(data)
-      // setLoading(false)
+        escQuery=escQuery.join(",")
+        if(entidad.length>0){
+          const {data}=await obtainDemo(escQuery,makeQuery(seriesSelec), makeQuery(entidad))
+          let dataArr=[]
+          let series=[]
+          data.forEach(e=>{
+            dataArr.push(Object.values(e))
+            series.push(Object.keys(e))
+          })
+          setData(dataArr.flat(2))
+          setSeriesGraph(series.flat(1))
+        }else{
+          const {data}=await obtainDemoTotal(escQuery,makeQuery(seriesSelec))
+          setEntidad(["Total"])
+          let dataArr=[]
+          let series=[]
+          console.log(data)
+          data.forEach(e=>{
+            dataArr.push(Object.values(e))
+            series.push(Object.keys(e))
+          })
+          setData(dataArr.flat(2))
+          setSeriesGraph(series.flat(1))
+          
+        }
+
+        setLoading(false)
+      } else {
+        setData(null)
+      }
     }
 
     getEscenario()
-  }, [entidad, escenario1, escenario2])
-
-  useEffect(() => {
-    async function getDemo(){
-      // const {data}=await obtainDemo()
-      // setDemo(data[0])
-    }
-    getDemo()
-  }, [demoSelec])
-  
+  }, [entidad, escenario1, escenario2, seriesSelec])
   
   const plainOptions = ['Aguascalientes', 'Baja California (Burocracia)',
     'Baja California (Magisterio)', 'Campeche', 'Chiapas', 'Chihuahua',
     'CDMX (CAPREPA)', 'CDMX (CAPREPOL)', 'CDMX (CAPTRALIR)',
     'Coahuila (Burocracia)', 'Coahuila (Magisterio)', 'Colima', 'Durango',
     'Guanajuato', 'Guerrero', 'Hidalgo', 'Jalisco', 'México', 'Michoacán',
-    'Morelos', 'Nayarit', 'Nuevo León (Jubilación)',
+    'Morelos', 'Nayarit', 'Nuevo León\n(Jubilación)',
     'Nuevo León (Invalidez y Vida)', 'Nuevo León (Riesgos de Trabajo)',
     'Nuevo León (Seguro de Vida)', 'Oaxaca', 'Puebla', 'Querétaro',
     'San Luis Potosí (Burocracia)',
@@ -72,6 +90,12 @@ function MenuEscenarios() {
     'San Luis Potosí (Magisterio)', 'San Luis Potosí (Telesecundaria)',
     'Sinaloa (Gobierno)', 'Sinaloa (ISSSTEESIN)', 'Sonora', 'Tabasco',
     'Tamaulipas', 'Tlaxcala', 'Veracruz ', 'Yucatán', 'Zacatecas']
+
+//     23: "Nuevo León\n(Jubilación)"
+// 24: "Nuevo Leon\n(Invalidez y Vida)"
+// 25: "Nuevo León\n(Riesgos de Trabajo)"
+// 26: "Nuevo León\n(Seguro de Vida)
+
   const seriesDeTiempo=['Flujos Egresos PCP', 'Flujos Egresos GA', 'Flujos Egresos NG',
   'Flujos Egresos Total', 'Flujos Activos GA', 'Flujos Activos NG',
   'Flujos Activos Total', 'Flujos Ap Ext GA', 'Flujos Ap Ext NG',
@@ -81,206 +105,178 @@ function MenuEscenarios() {
   'Pensionados PCP', 'Pensionados GA', 'Pensionados NG', 
   'Nomina GA', 'Nomina NG']
   
-  const variablesDemo=[
-    "activos-hombres",
-    "activos-mujeres",
-    "activos-total",
-    "pensionados-hombres",
-    "pensionados-mujeres",
-    "pensionados-total",
-    "activos-sueldo",
-    "activos-antiguedad",
-    "activos-edad",
-    "pensionados-sueldo",
-    "pensionados-edad"
-]
-
-
-    function handleMenuClick(e) {
-      message.info('Click on menu item.');
-      console.log('click', e);
-    }
-  function handleMenuEntidades(e) {
-    setEntidad(e.key)
-    console.log('click', e);
-  }
-
-  function handleMenuEscenario1(e) {
-    setEscenario1(e.key)
-    console.log('click', e);
-  }
-  function handleMenuEscenario2(e) {
-    setEscenario2(e.key)
-    console.log('click', e);
-  }
-  function handleMenuSeries(e) {
-    setSeriesSelec(e.key)
-    // setLoading(true)
-    // let arr=seriesSelec
-    // if(!arr.includes(e.key)){
-    //   arr.push(e.key)
-    //   const uniqueValues=[...new Set(arr)]
-    //   arr=uniqueValues
-    //   setSeriesSelec(uniqueValues)
-    // } else{
-    //   let b = arr.filter(s => s === e.key)
-    //   b.forEach(f => arr.splice(arr.findIndex(s => s === f),1))
-    //   const uniqueValues=[...new Set(arr)]
-    //   arr=uniqueValues
-    //   setSeriesSelec(uniqueValues)
-    // }
-    // setLoading(false)
-  }
-
-  function handleMenuDemo(e) {
-    setDemoSelec([variablesDemo.indexOf(e.key)+1,e.key])
-    console.log(variablesDemo.indexOf(e.key))
-  }
-
-  const menus = plainOptions.map((e) => {
+  const entOptions= plainOptions.map((e) => {
     return (
-      <Menu.Item key={e} >
+      <Option value={e} key={e} >
         {e}
-      </Menu.Item>
+      </Option>
     )
   });
 
-  const menuST = seriesDeTiempo.map((e) => {
+  const seriesOptions= seriesDeTiempo.map((e) => {
     return (
-      <Menu.Item key={e} >
-          {e}
-      </Menu.Item>
+      <Option value={e} key={e} >
+        {e}
+      </Option>
     )
   });
 
-  const menuVD = variablesDemo.map((e) => {
-    return (
-      <Menu.Item key={e} >
-          {e}
-      </Menu.Item>
-    )
-  });
+  function MenuEnts(){
+    return(
+      <Select
+      showSearch
+      style={{ width: 200 }}
+      placeholder="Search to Select"
+      mode="multiple"
+      defaultValue={entidad}
+      optionFilterProp="children"
+      onChange={handleChangeEnt}
+      filterOption={(input, option) =>
+        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      }
+      filterSort={(optionA, optionB) =>
+        optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+      }
+    >
+      {entOptions}
+    </Select>
 
-  const menuEntidades = () => {
-    return (
-      <Menu onClick={handleMenuEntidades} style={{overflow: 'scroll', height: 200}}>
-        {menus}
-      </Menu>
-    )
-  }
-
-  const menuSeries = () => {
-    return (
-      <Menu onClick={handleMenuSeries} style={{overflow: 'scroll', height: 200}}>
-        {menuST}
-      </Menu>
-    )
-  }
-
-  const menuDemo = () => {
-    return (
-      <Menu onClick={handleMenuDemo} style={{overflow: 'scroll', height: 200}}>
-        {menuVD}
-      </Menu>
     )
   }
 
-  const menuEscenario1=(
-    <Menu onClick={handleMenuEscenario1} multiple={true}>
-    <Menu.Item key="PRL1" icon={<UserOutlined />}>
-      PRL 1
-        </Menu.Item>
-    <Menu.Item key="PRL2" icon={<UserOutlined />}>
-      PRL 2
-        </Menu.Item>
-    <Menu.Item key="PRL3" icon={<UserOutlined />}>
-      PRL 3
-        </Menu.Item>
-  </Menu>
-  )
-  const menuEscenario2=(
-    <Menu onClick={handleMenuEscenario2} multiple={true}>
-    <Menu.Item key="CSI" icon={<UserOutlined />}>
-      CSI
-        </Menu.Item>
-    <Menu.Item key="SSI" icon={<UserOutlined />}>
-      SSI
-        </Menu.Item>
-  </Menu>
-  )
+  function MenuSeries(){
+    return(
+      <Select
+      showSearch
+      style={{ width: 200 }}
+      placeholder="Search to Select"
+      mode="multiple"
+      defaultValue={seriesSelec}
+      optionFilterProp="children"
+      onChange={handleChangeSeries}
+      filterOption={(input, option) =>
+        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      }
+      filterSort={(optionA, optionB) =>
+        optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+      }
+    >
+      {seriesOptions}
+    </Select>
 
-  const menu = (
-    <Menu onClick={handleMenuClick} multiple={true}>
-      <Menu.Item key="1" icon={<UserOutlined />}>
-        Con reforma
-          </Menu.Item>
-      <Menu.Item key="2" icon={<UserOutlined />}>
-        Sin reforma
-          </Menu.Item>
-      <Menu.Item key="3" icon={<UserOutlined />}>
-        Escenario mixto
-          </Menu.Item>
-    </Menu>
-  );
+    )
+  }
+
+  function handleChangeEsc1(value) {
+    setEscenario1(value)
+  }
+
+  function handleChangeEsc2(value) {
+    setEscenario2(value)
+  }
+
+  function handleChangeEnt(value) {
+    setEntidad(value)
+  }
+
+  function handleChangeSeries(value) {
+    setSeriesSelec(value)
+  }
+
 
   return (
     <div>
       <Row>
+        <Col>          
+        <Title level={3}>Seleccione el escenario a visualizar</Title>
+          <Text>Escenario</Text>
+          </Col>
+          </Row>
+      <Row>
 
         <Col>
-          <Title level={3}>Seleccione el escenario a visualizar</Title>
+
+
           <Space>
-            <Button>
-              +
-                    </Button>
+            
+                    <Select
+    showSearch
+    style={{ width: 200 }}
+    placeholder="Search to Select"
+    mode="multiple"
+    defaultValue={escenario1}
+    optionFilterProp="children"
+    onChange={handleChangeEsc1}
+    filterOption={(input, option) =>
+      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+    }
+    filterSort={(optionA, optionB) =>
+      optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+    }
+  >
+    <Option value="PRL1">PRL 1</Option>
+    <Option value="PRL2">PRL 2</Option>
+    <Option value="PRL3">PRL 3</Option>
+  </Select>
 
-            <Dropdown overlay={menuEscenario1}>
-              <Button>
-                {escenario1}<DownOutlined />
-              </Button>
-            </Dropdown>
-            <Dropdown overlay={menuEscenario2}>
-              <Button>
-                {escenario2}<DownOutlined />
-              </Button>
-            </Dropdown>
-            <Dropdown overlay={menuEntidades}>
-              <Button>
-                {entidad}<DownOutlined />
-              </Button>
-            </Dropdown>
-            <Dropdown overlay={menuSeries}>
-              <Button>
-                Series de tiempo<DownOutlined />
-              </Button>
-            </Dropdown>
+  <Select
+    showSearch
+    style={{ width: 200 }}
+    placeholder="Search to Select"
+    mode="multiple"
+    defaultValue={escenario2}
+    optionFilterProp="children"
+    onChange={handleChangeEsc2}
+    filterOption={(input, option) =>
+      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+    }
+    filterSort={(optionA, optionB) =>
+      optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+    }
+  >
+    <Option value="CSI">CSI</Option>
+    <Option value="SSI">SSI</Option>
+  </Select>
+  </Space>
 
-          </Space>
-        </Col>
+  </Col>
 
-      </Row>
+</Row>
+<Row>
+        <Col>   
+          <Text>Entidades y series de tiempo</Text>
+          </Col>
+          </Row>
+<Row>
+<Col>
+<Space>
+
+    <MenuEnts />
+    <MenuSeries/>
+  </Space>
+
+    </Col>
+
+</Row>
+
 
       <Row>
         <Col sm={24}>
           {loading ?
-            <div style={{height:600, width:"100%"}}>
-<Skeleton />
+            <div style={{height:600, width:"100%", margin:"25% 0 0 45%"}}>
+  <Spin tip="Cargando...">
+  </Spin>
             </div>
             :
-            <LineasChart title="Escenario pensionario" data={data} series={seriesSelec} />
-            }
-        </Col>
-        <Col sm={24}>
-        <Dropdown overlay={menuDemo}>
-              <Button>
-                {demoSelec[1]}<DownOutlined />
-              </Button>
-            </Dropdown>
-          {demo ?
-            <BarrasChart data={demo} variable={demoSelec} />
+            data ?
+            <LineasChart title="Escenario pensionario" data={data} series={seriesGraph} entidades={entidad} />
             :
-            null
-          }
+            <Empty
+            description={
+              <Text>
+                Por favor seleccione al menos un escenario y serie de tiempo a visualizar 
+              </Text>
+            }/>}
         </Col>
       </Row>
 

@@ -5,7 +5,8 @@ import {
     PieChartOutlined,
     FileOutlined,
     TeamOutlined,
-    LogoutOutlined
+    LogoutOutlined,
+    AreaChartOutlined
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
@@ -33,29 +34,34 @@ function SiderMenu() {
                 src="https://slack-imgs.com/?c=1&o1=ro&url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2Ff%2Ff9%2FLogo_BID_Espa%25C3%25B1ol.png%2F1200px-Logo_BID_Espa%25C3%25B1ol.png"/>
             </div>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-                <Menu.Item key="1" icon={<PieChartOutlined />}>
+                <Menu.Item key="1" icon={<AreaChartOutlined />}>
                     <Link to={"/escenarios"}>
                     Escenarios
                     </Link>
             </Menu.Item>
+            <Menu.Item key="2" icon={<PieChartOutlined />}>
+                    <Link to={"/demograficos"}>
+                    Datos Demográficos
+                    </Link>
+            </Menu.Item>
                 <SubMenu key="sub1" icon={<DesktopOutlined />} title="Leyes">
-                    <Menu.Item key="2" >
+                    <Menu.Item key="3" >
                         <Link to={"/buscador/leyes"}>
                             Leyes y Reglamentos
               </Link>
                     </Menu.Item>
-                    <Menu.Item key="3" >
+                    <Menu.Item key="4" >
                         <Link to={"/buscador/estado"}>
                             Por estado
               </Link>
                     </Menu.Item>
-                    <Menu.Item key="4" >
+                    <Menu.Item key="5" >
                         <Link to={'/buscador/articulo'}>
                             Por artículo
                             </Link>
                     </Menu.Item>
                 </SubMenu>
-                <Menu.Item key="5" icon={<FileOutlined />}>
+                <Menu.Item key="6" icon={<FileOutlined />}>
                     Descargas
             </Menu.Item>
                 {/* <SubMenu key="sub2" icon={<TeamOutlined />} title="Ajustes">
