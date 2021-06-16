@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Col, Row, Typography, Space, Select, Empty, Spin } from 'antd'
+import { Col, Row, Typography, Space, Select, Empty, Spin, Button } from 'antd'
 import { obtainDemo, obtainDemoTotal } from '../services'
 import BarrasChart from './BarrasChart'
+import { CSVLink } from "react-csv";
+
 
 const { Text, Title } = Typography
 
@@ -17,6 +19,29 @@ function MenuDemograficos() {
     const [loading, setLoading] = useState(true)
     const [seriesGraph, setSeriesGraph]= useState()
     const [entidades, setEntidades] = useState()
+  const [csvReport, setcsvReport] = useState()
+
+  function getCSVData(data) {
+    let CSVdata = []
+    for (let i = 1; i < data.length; i++) {
+      var result = {};
+      data[0].forEach((key, j) => result[key.replace(searchRegExp, replaceWith)] = data[i][j])
+      CSVdata.push(result)
+    }
+    return CSVdata
+  }
+
+  function getHeaders(data) {
+    let headers = []
+    data[0].forEach(e => {
+      headers.push({
+        label: e,
+        key: e.replace(searchRegExp, replaceWith)
+      })
+    })
+    return headers
+  }
+
 
     const tablas = ['activos antiguedad promedio',
      'activos edad promedio',
@@ -65,6 +90,25 @@ function MenuDemograficos() {
         getData()
     }, [tabla])
 
+    useEffect(() => {
+      function getCSV(){
+        let dataArr = []
+        if(data){
+          data.forEach(e => {
+            dataArr.push(Object.values(e))
+           })
+           console.log(dataArr.flat(2))
+          const csvReport = {
+            data: getCSVData(dataArr.flat(2)),
+            headers: getHeaders(dataArr.flat(2)),
+            filename: 'Descarga_de_datos.csv'
+           };
+          setcsvReport(csvReport)
+        }
+      }
+      getCSV()
+    }, [data])
+
     function handleChange(value) {
         setTabla(value)
       }    
@@ -95,10 +139,19 @@ function MenuDemograficos() {
 
     return (
         <div>
-            <Row>
+            <Row justify="space-between">
                 <Col>
                 <Text>Variables</Text>
                 </Col>
+                <Col>
+          <div style={{ marginRight: "5rem" }}>
+            {csvReport ?
+              <CSVLink {...csvReport}><Button type="primary" >Descargar CSV</Button></CSVLink>
+              :
+              null
+            }
+          </div>
+        </Col>
             </Row>
             <Row>
                 <Col>
