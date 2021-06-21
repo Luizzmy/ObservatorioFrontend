@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Space, Spin, Typography, Col, Row, Select, Empty, Button } from 'antd';
+import { Space, Spin, Typography, Col, Row, Select, Empty, Button, Checkbox } from 'antd';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import LineasChart from './LineasChart';
 import { obtainData, obtainDemoTotal } from '../services/index'
@@ -17,16 +17,18 @@ const replaceWith = '-';
 function MenuEscenarios() {
 
   const [data, setData] = useState()
-  const [escenario1, setEscenario1] = useState(["PRL1"])
+  const [escenario1, setEscenario1] = useState(["PRL1", "PRL2", "PRL3"])
+  const [actuales, setActuales] = useState(["Flujos Egresos Total"])
   const [escenario2, setEscenario2] = useState(["CSI"])
   const [entidad, setEntidad] = useState([])
-  const [seriesSelec, setSeriesSelec] = useState(["Flujos Activos GA", "Flujos Egresos PCP"])
+  const [seriesSelec, setSeriesSelec] = useState(["Flujos Egresos Total"])
   const [loading, setLoading] = useState(true)
   const [seriesGraph, setSeriesGraph] = useState()
   const [csvReport, setcsvReport] = useState()
-
-
-
+  const [pef, setPef] = useState(false)
+  const [dataPEF, setDataPEF] = useState()
+  const [cocPEF, setCocPEF] = useState()
+  const [cuentas, setCuentas] = useState(["nocionales"])
 
   function makeQuery(origState) {
     let arr = []
@@ -65,34 +67,73 @@ function MenuEscenarios() {
         setLoading(true)
         let escQuery = []
         escenario1.forEach(e => {
-          escenario2.forEach(e1 => {
-            escQuery.push(`${e}-${e1}`)
+          escenario2.forEach(e2 => {
+            escQuery.push(`${e}-${e2}`)
           })
+          
         })
         escQuery = escQuery.join(",")
+        let dataArr = []
+        let series = []
         if (entidad.length > 0) {
           const { data } = await obtainDemo(escQuery, makeQuery(seriesSelec), makeQuery(entidad))
-          let dataArr = []
-          let series = []
           data.forEach(e => {
             dataArr.push(Object.values(e))
             series.push(Object.keys(e))
           })
-          setData(dataArr.flat(2))
-          setSeriesGraph(series.flat(1))
         } else {
           const { data } = await obtainDemoTotal(escQuery, makeQuery(seriesSelec))
           setEntidad(["Total"])
-          let dataArr = []
-          let series = []
-          console.log(data)
           data.forEach(e => {
             dataArr.push(Object.values(e))
             series.push(Object.keys(e))
           })
-          setData(dataArr.flat(2))
-          setSeriesGraph(series.flat(1))
         }
+        if(actuales.length>0){
+          if(entidad.length>0){
+          const {data}=await obtainDemo("Actual", makeQuery(actuales), makeQuery(entidad))
+          data.forEach(e => {
+            dataArr.push(Object.values(e))
+            series.push(Object.keys(e))
+          })
+          } else {
+          const {data}=await obtainDemoTotal("Actual", makeQuery(actuales))
+          setEntidad(["Total"])
+            data.forEach(e => {
+              dataArr.push(Object.values(e))  
+              series.push(Object.keys(e))
+            })
+          }
+        }
+
+        if(pef){
+          let pefValues=[]
+          const {data}=await obtainDemoTotal(`${escQuery},PEF`, makeQuery(seriesSelec))
+          pefValues.push(Object.values(data[data.length-1]))
+          if(cocPEF){    
+            dataArr.flat(2).forEach(d=>{
+              for(let i=1; i<d.length-1; i++){
+                if(typeof d[i]=="number"){
+                  if(parseFloat(d[0]) && parseFloat(d[0])<2120){
+                    let num=parseFloat(d[0])
+                      d[i]=((d[i]*100)/(pefValues.flat(2).filter(v=>v[1]==num)[0][2]*100))*100
+                    
+                  }
+                }
+              }
+            })            
+            console.log(dataArr.flat(2))
+          series.push(pefValues.flat(2)[1][pefValues.flat(2)[1].length-1])
+
+          } else {
+            setDataPEF(pefValues.flat(2))
+            series.push(pefValues.flat(2)[1][pefValues.flat(2)[1].length-1])
+          }
+
+        }
+
+        setData(dataArr.flat(2))
+        setSeriesGraph(series.flat(1))
 
         setLoading(false)
       } else {
@@ -101,7 +142,7 @@ function MenuEscenarios() {
     }
 
     getEscenario()
-  }, [entidad, escenario1, escenario2, seriesSelec])
+  }, [entidad, escenario1, escenario2, seriesSelec, actuales, pef, cocPEF])
 
   useEffect(() => {
     function getCSV(){
@@ -136,11 +177,6 @@ function MenuEscenarios() {
     'Sinaloa (Gobierno)', 'Sinaloa (ISSSTEESIN)', 'Sonora', 'Tabasco',
     'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatán', 'Zacatecas']
 
-  //     23: "Nuevo León\n(Jubilación)"
-  // 24: "Nuevo Leon\n(Invalidez y Vida)"
-  // 25: "Nuevo León\n(Riesgos de Trabajo)"
-  // 26: "Nuevo León\n(Seguro de Vida)
-
   const seriesDeTiempo = ['Flujos Egresos PCP', 'Flujos Egresos GA', 'Flujos Egresos NG',
     'Flujos Egresos Total', 'Flujos Activos GA', 'Flujos Activos NG',
     'Flujos Activos Total', 'Flujos Ap Ext GA', 'Flujos Ap Ext NG',
@@ -150,10 +186,25 @@ function MenuEscenarios() {
     'Pensionados PCP', 'Pensionados GA', 'Pensionados NG',
     'Nomina GA', 'Nomina NG']
 
+  const seriesActuales=['Flujos Activos Total',
+   'Flujos Ap Ext Total',
+   'Flujos CP Total',
+   'Flujos Egresos Total',
+   'Flujos Nomina',
+   'Flujos Presupuesto', 'Flujos Reserva Total',]
+
   const entOptions = plainOptions.map((e) => {
     return (
       <Option value={e} key={e} >
         {e}
+      </Option>
+    )
+  });
+
+  const actualesOptions = seriesActuales.map((e) => {
+    return (
+      <Option value={e} key={e} >
+        {e.replace("Actual-", "")}
       </Option>
     )
   });
@@ -173,7 +224,7 @@ function MenuEscenarios() {
         style={{ width: 200 }}
         placeholder="Search to Select"
         mode="multiple"
-        defaultValue={entidad}
+        value={entidad}
         optionFilterProp="children"
         onChange={handleChangeEnt}
         filterOption={(input, option) =>
@@ -196,7 +247,7 @@ function MenuEscenarios() {
         style={{ width: 200 }}
         placeholder="Search to Select"
         mode="multiple"
-        defaultValue={seriesSelec}
+        value={seriesSelec}
         optionFilterProp="children"
         onChange={handleChangeSeries}
         filterOption={(input, option) =>
@@ -207,6 +258,30 @@ function MenuEscenarios() {
         }
       >
         {seriesOptions}
+      </Select>
+
+    )
+  }
+
+
+  function MenuActs() {
+    return (
+      <Select
+        showSearch
+        style={{ width: 200 }}
+        placeholder="Search to Select"
+        mode="multiple"
+        value={actuales}
+        optionFilterProp="children"
+        onChange={handleChangeActs}
+        filterOption={(input, option) =>
+          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        }
+        filterSort={(optionA, optionB) =>
+          optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+        }
+      >
+        {actualesOptions}
       </Select>
 
     )
@@ -228,6 +303,87 @@ function MenuEscenarios() {
     setSeriesSelec(value)
   }
 
+  function handleChangeActs(value) {
+    setActuales(value)
+  }
+
+  function handleChangeCuentas(value) {
+    setCuentas(value)
+    if(value.includes("nocionales")){
+      if(escenario1!==["PRL1", "PRL2", "PRL3"]){
+        let arr=["PRL1", "PRL2", "PRL3"]
+        setEscenario1(arr)
+      }
+      if(!escenario2.includes("CSI")){
+        let arr=escenario2
+        arr.push("CSI")
+        setEscenario2(arr)
+      }
+      if(!seriesSelec.includes("Flujos Egresos Total")){
+        let arr=seriesSelec
+        arr.push("Flujos Egresos Total")
+        setSeriesSelec(arr)
+      }
+      if(!actuales.includes("Flujos Egresos Total")){
+        let arr=actuales
+        arr.push("Flujos Egresos Total")
+        setActuales(arr)
+      }
+    }else {
+      let arr=["SSI"]
+      setEscenario2(arr)
+    }
+    if(value.includes("individuales")){
+      let prls=[]
+      prls.push("PRL1", "PRL2", "PRL3")
+      setEscenario1(prls)
+      console.log(escenario2)
+      if(!escenario2.includes("SSI")){
+        let arr=escenario2
+        arr.push("SSI")
+        setEscenario2(arr)
+      }
+      if(!seriesSelec.includes("Flujos Egresos Total")){
+        let arr=seriesSelec
+        arr.push("Flujos Egresos Total")
+        setSeriesSelec(arr)
+      }
+      if(!actuales.includes("Flujos Egresos Total")){
+        let arr=actuales
+        arr.push("Flujos Egresos Total")
+        setActuales(arr)
+      }
+
+    } else {
+      let arr=["CSI"]
+      setEscenario2(arr)
+    }
+    console.log(value)
+  }
+
+  function graphPEF(){
+    if(!dataPEF){
+      setPef(true)
+    } else {
+      setDataPEF(null)
+      setPef(false)
+    }
+  }
+
+  function cocientePEF(){
+    if(!dataPEF){
+      setPef(true)
+    }
+
+    if(!cocPEF){
+      setCocPEF(true)
+    } else {
+      setCocPEF(false)
+    }
+    console.log("cociente")
+  }
+
+
 
 
   return (
@@ -235,7 +391,6 @@ function MenuEscenarios() {
       <Row justify="space-between">
         <Col>
           <Title level={3}>Seleccione el escenario a visualizar</Title>
-          <Text>Escenario</Text>
         </Col>
         <Col>
           <div style={{ marginRight: "9rem" }}>
@@ -248,9 +403,50 @@ function MenuEscenarios() {
         </Col>
       </Row>
       <Row>
+      <Col sm={24} md={24} lg={16} xl={8} xxl={8}>
+        <Row>
+          <Col>
+          <Text>Cuentas Nocionales/Individuales</Text><br/>
+          <Select
+              showSearch
+              style={{ width: 200 }}
+              placeholder="Search to Select"
+              mode="multiple"
+              value={cuentas}
+              optionFilterProp="children"
+              onChange={handleChangeCuentas}
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+              filterSort={(optionA, optionB) =>
+                optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+              }
+            >
+              <Option value="nocionales">Cuentas Nocionales</Option>
+              <Option value="individuales">Cuentas Individuales</Option>
+            </Select><br/>
+          </Col>
+          <Col>
+          <Text>Escenario Actual</Text>
+        <br/>
 
-        <Col>
 
+<Space>
+<MenuActs/>
+</Space>
+</Col>
+        </Row>
+      
+            </Col>
+            
+      </Row>
+      <Row >
+
+        <Col sm={24} md={24} lg={16} xl={8} xxl={8}>
+
+
+        <Text>Escenario de reforma</Text>
+        <br/>
 
           <Space>
 
@@ -259,7 +455,7 @@ function MenuEscenarios() {
               style={{ width: 200 }}
               placeholder="Search to Select"
               mode="multiple"
-              defaultValue={escenario1}
+              value={escenario1}
               optionFilterProp="children"
               onChange={handleChangeEsc1}
               filterOption={(input, option) =>
@@ -269,9 +465,9 @@ function MenuEscenarios() {
                 optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
               }
             >
-              <Option value="PRL1">PRL 1</Option>
-              <Option value="PRL2">PRL 2</Option>
-              <Option value="PRL3">PRL 3</Option>
+              <Option value="PRL1">PRL1</Option>
+              <Option value="PRL2">PRL2</Option>
+              <Option value="PRL3">PRL3</Option>
             </Select>
 
             <Select
@@ -279,7 +475,7 @@ function MenuEscenarios() {
               style={{ width: 200 }}
               placeholder="Search to Select"
               mode="multiple"
-              defaultValue={escenario2}
+              value={escenario2}
               optionFilterProp="children"
               onChange={handleChangeEsc2}
               filterOption={(input, option) =>
@@ -295,22 +491,34 @@ function MenuEscenarios() {
           </Space>
 
         </Col>
+        <Col sm={24} md={24} lg={8} xl={8} xxl={8}>
+
+
+</Col>
+
 
       </Row>
-      <Row>
-        <Col>
+
+      
+      <Row >
+        <Col sm={24} md={24} lg={16} xl={8} xxl={8}>
           <Text>Entidades y series de tiempo</Text>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
+          <br/>
           <Space>
 
             <MenuEnts />
             <MenuSeries />
           </Space>
+          <br/>
+          <Checkbox onChange={graphPEF} checked={dataPEF}>PEF</Checkbox>
+          <Checkbox onChange={cocientePEF}>PEF como cociente</Checkbox><br/>
 
         </Col>
+        <Col sm={24} md={24} lg={10} xl={8} xxl={8}>
+
+
+
+</Col>
 
       </Row>
 
@@ -324,7 +532,7 @@ function MenuEscenarios() {
             </div>
             :
             data ?
-              <LineasChart title="Escenario pensionario" data={data} series={seriesGraph} entidades={entidad} />
+              <LineasChart title="Escenario pensionario" data={data} series={seriesGraph} entidades={entidad} dataPEF={dataPEF} cocPEF={cocPEF} />
               :
               <Empty
                 description={

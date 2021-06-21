@@ -20,7 +20,7 @@ function LayoutApp({children}) {
             {/* <div style={{margin:"2px 35px 0 0"}}> */}
           <img 
                 height="64px"
-                src="./logoH.png"/>
+                src="/./logoH.png"/>
             {/* </div> */}
           </Row>
             </Header>

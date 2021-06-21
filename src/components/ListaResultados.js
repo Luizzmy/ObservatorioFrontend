@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {List} from 'antd'
-
+import JSZip from 'jszip'
 
 function ListaResultados({tipo, words}) {
 
@@ -29,6 +29,42 @@ function ListaResultados({tipo, words}) {
         }
         getData()
     }, [])
+
+    // useEffect(() => {
+    //   if (files) {
+
+    //     fetch('/leyes_edos.zip',)
+    //     .then(function (response){
+    //         console.log(response)
+    //         JSZip.loadAsync(response)
+
+    //     })
+
+    //     JSZip.loadAsync(f) // 1) read the Blob
+    //     .then((zip) => {
+    //         const contents = [];
+    //         zip.forEach((relativePath, zipEntry) => {  // 2) print entries
+    //           contents.push(zipEntry.name);
+    //         });
+    //         // const loadTime = moment(new Date()).diff(moment(dateBefore));
+    //         setFileInfo({
+    //         //   loadTime,
+    //           contents: contents.sort(),
+    //           error: null
+    //         });
+    //     }, (e) => {
+    //     //   const loadTime = moment(new Date()).diff(moment(dateBefore));
+    //       setFileInfo({
+    //         // loadTime,
+    //         contents: [],
+    //         error: "Error reading " + f.name + ": " + e.message
+    //       });
+    //     })
+    //     // .then(()=>{
+    //     //     console.log(fileInfo)
+    //     // });
+    //   }
+    // }, [files]);
 
     useEffect(() => {
         function matchLaws(){
@@ -59,7 +95,7 @@ function ListaResultados({tipo, words}) {
     renderItem={item => (
       <List.Item>
         <List.Item.Meta
-          title={<a href="https://ant.design">{item.nombre}</a>}
+          title={<a href={`/./leyesYReglamentos/${item.file}.pdf`} target="_blank">{item.nombre}</a>}
           description={<><p>{item.publicacion ? `Publicada: ${item.publicacion}`: null}</p><p>{item.ultimaReforma ? `Última reforma: ${item.ultimaReforma}` : null}</p></>}
         />
       </List.Item>
