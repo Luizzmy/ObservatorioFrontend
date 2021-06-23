@@ -95,7 +95,7 @@ function ListaResultados({tipo, words}) {
     renderItem={item => (
       <List.Item>
         <List.Item.Meta
-          title={<a href={`/./leyesYReglamentos/${item.file}.pdf`} target="_blank">{item.nombre}</a>}
+          title={<a  href={`/./leyesYReglamentos/${item.file}.pdf`} target="_blank" download>{item.nombre}</a>}
           description={<><p>{item.publicacion ? `Publicada: ${item.publicacion}`: null}</p><p>{item.ultimaReforma ? `Última reforma: ${item.ultimaReforma}` : null}</p></>}
         />
       </List.Item>

@@ -139,7 +139,7 @@ function LineasChart({ title, data, series, entidades, dataPEF, cocPEF }) {
                                 return value + "%"
                             } else {
                                 if (value > 500000) {
-                                    return (value / 100000 + " M").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                                    return (value / 1000000 + " M").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                                 } else
                                     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                             }

@@ -14,6 +14,17 @@ const { Option } = Select;
 const searchRegExp = /\s/g;
 const replaceWith = '-';
 
+function getCSVData(data) {
+  let CSVdata = []
+  for (let i = 1; i < data.length; i++) {
+    var result = {};
+    data[0].forEach((key, j) => result[key.replace(searchRegExp, replaceWith)] = data[i][j])
+    CSVdata.push(result)
+  }
+  return CSVdata
+}
+
+
 function MenuEscenarios() {
 
   const [data, setData] = useState()
@@ -28,7 +39,8 @@ function MenuEscenarios() {
   const [pef, setPef] = useState(false)
   const [dataPEF, setDataPEF] = useState()
   const [cocPEF, setCocPEF] = useState()
-  const [cuentas, setCuentas] = useState(["nocionales"])
+  // const [cuentas, setCuentas] = useState(["nocionales"])
+  const [sum, setSum] = useState(false)
 
   function makeQuery(origState) {
     let arr = []
@@ -38,15 +50,6 @@ function MenuEscenarios() {
     return arr.join(",")
   }
 
-  function getCSVData(data) {
-    let CSVdata = []
-    for (let i = 1; i < data.length; i++) {
-      var result = {};
-      data[0].forEach((key, j) => result[key.replace(searchRegExp, replaceWith)] = data[i][j])
-      CSVdata.push(result)
-    }
-    return CSVdata
-  }
 
   function getHeaders(data) {
     let headers = []
@@ -76,13 +79,13 @@ function MenuEscenarios() {
         let dataArr = []
         let series = []
         if (entidad.length > 0) {
-          const { data } = await obtainDemo(escQuery, makeQuery(seriesSelec), makeQuery(entidad))
+          const { data } = await obtainDemo(escQuery, makeQuery(seriesSelec), makeQuery(entidad), sum)
           data.forEach(e => {
             dataArr.push(Object.values(e))
             series.push(Object.keys(e))
           })
         } else {
-          const { data } = await obtainDemoTotal(escQuery, makeQuery(seriesSelec))
+          const { data } = await obtainDemoTotal(escQuery, makeQuery(seriesSelec), true)
           setEntidad(["Total"])
           data.forEach(e => {
             dataArr.push(Object.values(e))
@@ -91,13 +94,13 @@ function MenuEscenarios() {
         }
         if(actuales.length>0){
           if(entidad.length>0){
-          const {data}=await obtainDemo("Actual", makeQuery(actuales), makeQuery(entidad))
+          const {data}=await obtainDemo("Actual", makeQuery(actuales), makeQuery(entidad), sum)
           data.forEach(e => {
             dataArr.push(Object.values(e))
             series.push(Object.keys(e))
           })
           } else {
-          const {data}=await obtainDemoTotal("Actual", makeQuery(actuales))
+          const {data}=await obtainDemoTotal("Actual", makeQuery(actuales), true)
           setEntidad(["Total"])
             data.forEach(e => {
               dataArr.push(Object.values(e))  
@@ -108,7 +111,7 @@ function MenuEscenarios() {
 
         if(pef){
           let pefValues=[]
-          const {data}=await obtainDemoTotal(`${escQuery},PEF`, makeQuery(seriesSelec))
+          const {data}=await obtainDemoTotal(`${escQuery},PEF`, makeQuery(seriesSelec), true)
           pefValues.push(Object.values(data[data.length-1]))
           if(cocPEF){    
             dataArr.flat(2).forEach(d=>{
@@ -142,7 +145,7 @@ function MenuEscenarios() {
     }
 
     getEscenario()
-  }, [entidad, escenario1, escenario2, seriesSelec, actuales, pef, cocPEF])
+  }, [entidad, escenario1, escenario2, seriesSelec, actuales, pef, cocPEF, sum])
 
   useEffect(() => {
     function getCSV(){
@@ -307,59 +310,59 @@ function MenuEscenarios() {
     setActuales(value)
   }
 
-  function handleChangeCuentas(value) {
-    setCuentas(value)
-    if(value.includes("nocionales")){
-      if(escenario1!==["PRL1", "PRL2", "PRL3"]){
-        let arr=["PRL1", "PRL2", "PRL3"]
-        setEscenario1(arr)
-      }
-      if(!escenario2.includes("CSI")){
-        let arr=escenario2
-        arr.push("CSI")
-        setEscenario2(arr)
-      }
-      if(!seriesSelec.includes("Flujos Egresos Total")){
-        let arr=seriesSelec
-        arr.push("Flujos Egresos Total")
-        setSeriesSelec(arr)
-      }
-      if(!actuales.includes("Flujos Egresos Total")){
-        let arr=actuales
-        arr.push("Flujos Egresos Total")
-        setActuales(arr)
-      }
-    }else {
-      let arr=["SSI"]
-      setEscenario2(arr)
-    }
-    if(value.includes("individuales")){
-      let prls=[]
-      prls.push("PRL1", "PRL2", "PRL3")
-      setEscenario1(prls)
-      console.log(escenario2)
-      if(!escenario2.includes("SSI")){
-        let arr=escenario2
-        arr.push("SSI")
-        setEscenario2(arr)
-      }
-      if(!seriesSelec.includes("Flujos Egresos Total")){
-        let arr=seriesSelec
-        arr.push("Flujos Egresos Total")
-        setSeriesSelec(arr)
-      }
-      if(!actuales.includes("Flujos Egresos Total")){
-        let arr=actuales
-        arr.push("Flujos Egresos Total")
-        setActuales(arr)
-      }
+  // function handleChangeCuentas(value) {
+  //   setCuentas(value)
+  //   if(value.includes("nocionales")){
+  //     if(escenario1!==["PRL1", "PRL2", "PRL3"]){
+  //       let arr=["PRL1", "PRL2", "PRL3"]
+  //       setEscenario1(arr)
+  //     }
+  //     if(!escenario2.includes("CSI")){
+  //       let arr=escenario2
+  //       arr.push("CSI")
+  //       setEscenario2(arr)
+  //     }
+  //     if(!seriesSelec.includes("Flujos Egresos Total")){
+  //       let arr=seriesSelec
+  //       arr.push("Flujos Egresos Total")
+  //       setSeriesSelec(arr)
+  //     }
+  //     if(!actuales.includes("Flujos Egresos Total")){
+  //       let arr=actuales
+  //       arr.push("Flujos Egresos Total")
+  //       setActuales(arr)
+  //     }
+  //   }else {
+  //     let arr=["SSI"]
+  //     setEscenario2(arr)
+  //   }
+  //   if(value.includes("individuales")){
+  //     let prls=[]
+  //     prls.push("PRL1", "PRL2", "PRL3")
+  //     setEscenario1(prls)
+  //     console.log(escenario2)
+  //     if(!escenario2.includes("SSI")){
+  //       let arr=escenario2
+  //       arr.push("SSI")
+  //       setEscenario2(arr)
+  //     }
+  //     if(!seriesSelec.includes("Flujos Egresos Total")){
+  //       let arr=seriesSelec
+  //       arr.push("Flujos Egresos Total")
+  //       setSeriesSelec(arr)
+  //     }
+  //     if(!actuales.includes("Flujos Egresos Total")){
+  //       let arr=actuales
+  //       arr.push("Flujos Egresos Total")
+  //       setActuales(arr)
+  //     }
 
-    } else {
-      let arr=["CSI"]
-      setEscenario2(arr)
-    }
-    console.log(value)
-  }
+  //   } else {
+  //     let arr=["CSI"]
+  //     setEscenario2(arr)
+  //   }
+  //   console.log(value)
+  // }
 
   function graphPEF(){
     if(!dataPEF){
@@ -383,8 +386,13 @@ function MenuEscenarios() {
     console.log("cociente")
   }
 
-
-
+  function sumTot(){
+    if(!sum){
+      setSum(true)
+    }else{
+      setSum(false)
+    }
+  }
 
   return (
     <div>
@@ -405,7 +413,7 @@ function MenuEscenarios() {
       <Row>
       <Col sm={24} md={24} lg={16} xl={8} xxl={8}>
         <Row>
-          <Col>
+          {/* <Col>
           <Text>Cuentas Nocionales/Individuales</Text><br/>
           <Select
               showSearch
@@ -425,9 +433,9 @@ function MenuEscenarios() {
               <Option value="nocionales">Cuentas Nocionales</Option>
               <Option value="individuales">Cuentas Individuales</Option>
             </Select><br/>
-          </Col>
+          </Col> */}
           <Col>
-          <Text>Escenario Actual</Text>
+          <Text>Escenario actual</Text>
         <br/>
 
 
@@ -485,8 +493,8 @@ function MenuEscenarios() {
                 optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
               }
             >
-              <Option value="CSI">CSI</Option>
-              <Option value="SSI">SSI</Option>
+              <Option value="CSI">Ctas. Nocionales (CSI)</Option>
+              <Option value="SSI">Ctas. Individuales (SSI)</Option>
             </Select>
           </Space>
 
@@ -511,7 +519,9 @@ function MenuEscenarios() {
           </Space>
           <br/>
           <Checkbox onChange={graphPEF} checked={dataPEF}>PEF</Checkbox>
-          <Checkbox onChange={cocientePEF}>PEF como cociente</Checkbox><br/>
+          <Checkbox onChange={cocientePEF}>PEF como cociente</Checkbox>
+          <Checkbox onChange={sumTot} checked={sum}>Sumar entidades</Checkbox>
+          <br/>
 
         </Col>
         <Col sm={24} md={24} lg={10} xl={8} xxl={8}>
@@ -532,7 +542,7 @@ function MenuEscenarios() {
             </div>
             :
             data ?
-              <LineasChart title="Escenario pensionario" data={data} series={seriesGraph} entidades={entidad} dataPEF={dataPEF} cocPEF={cocPEF} />
+              <LineasChart title="Escenario pensionario" data={data} series={seriesGraph} entidades={sum ? ["Total"] :entidad} dataPEF={dataPEF} cocPEF={cocPEF} />
               :
               <Empty
                 description={

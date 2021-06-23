@@ -71,7 +71,7 @@ function MenuDemograficos() {
                 tabla.forEach(e=>{
                   arr.push(e.replace(searchRegExp, replaceWith))
                 })
-                const { data } = await obtainDemoTotal("demo", arr.join(","))
+                const { data } = await obtainDemoTotal("demo", arr.join(","), false)
                 let dataArr=[]
                 let series=[]
                 data.forEach(e=>{
@@ -81,7 +81,7 @@ function MenuDemograficos() {
                 setData(data)
                 setSeriesGraph(series.flat(1))
                 console.log(dataArr.flat(2)[0].slice(1,dataArr.flat(2)[0].length-2))
-                setEntidades(dataArr.flat(2)[0].slice(1,dataArr.flat(2)[0].length-2))
+                setEntidades(dataArr.flat(2)[0].slice(2,dataArr.flat(2)[0].length-6))
                 setLoading(false)
             } else {
                 setData(null)

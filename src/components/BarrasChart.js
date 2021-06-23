@@ -20,7 +20,7 @@ function BarrasChart({data, series, entidades}) {
                 emphasis: {
                     focus: 'series'
                 },
-                data: e[Object.keys(e)[0]][1].slice(1,e[Object.keys(e)[0]][1].length-2)
+                data: e[Object.keys(e)[0]][1].slice(2,e[Object.keys(e)[0]][1].length-6)
             }
         )
     });
