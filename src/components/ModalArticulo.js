@@ -19,7 +19,6 @@ function ModalArticulo({data, articulo, ley}) {
 
   useEffect(() => {
     function getArticulo(data, articulo, ley){
-      
       console.log(data[ley][capitalizeFirstLetter(articulo)])
     }
     getArticulo(data, articulo, ley)

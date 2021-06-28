@@ -6,14 +6,24 @@ const { Text } = Typography
 
 function ResultadosCompArt({ words, data, leySelect, artSelect, leyes }) {
 
-    
+
     const [articulos, setArticulos] = useState()
-    
+    const [leyesData, setLeyesData] = useState()
+
 
     useEffect(() => {
         function filterData(data, words) {
+            // console.log(Object.values(data))
             let res = []
             if (words) {
+                let obj2={}
+                for (let i in data) {
+                    const obj =Object.fromEntries(Object.entries(data[i]))
+                    obj2={...obj2,
+                    ...obj}
+                }
+                setLeyesData(obj2)
+
                 let wordsarr = words.split(" ")
                 for (let i in data) {
                     for (let j in data[i]) {
@@ -41,7 +51,6 @@ function ResultadosCompArt({ words, data, leySelect, artSelect, leyes }) {
         function filterData(leySelect, artSelect, data) {
             let res = []
             if (artSelect) {
-                console.log("test")
                 for (let i in data) {
                     for (let j in data[i]) {
 
@@ -66,7 +75,7 @@ function ResultadosCompArt({ words, data, leySelect, artSelect, leyes }) {
 
     return (
         <div>
-            {articulos ?
+            {articulos && leyesData ?
                 <>
                     {words ?
                         <Text>Artículos que incluyen las palabras: {words}</Text>
@@ -83,7 +92,14 @@ function ResultadosCompArt({ words, data, leySelect, artSelect, leyes }) {
                                         <>
                                             <Text>Entidad:<b>{item.estado}</b></Text><br />
                                             <Text>Ley/Reglamento:<b>{item.ley}</b></Text><br />
-                                            <ModifiedText text={item.texto} leyes={leyes} data={data} leyAct={item.ley} estadoAct={item.estado}/><br />
+                                            <ModifiedText
+                                                text={item.texto}
+                                                leyes={leyes}
+                                                data={leyesData}
+                                                leyAct={item.ley}
+                                                // estadoAct={item.estado}
+                                                datatot={data}
+                                            /><br />
                                         </>
                                     }
                                 />

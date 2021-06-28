@@ -21,7 +21,7 @@ function makeTableData(data){
   let arr=[]
   for(let i=1; i<data.length; i++){
     let result={}
-    data[0].forEach((key, j) => result[key.replace(searchRegExp, replaceWith)] = data[i][j])
+    data[0].forEach((key, j) => result[key.replace(searchRegExp, replaceWith)] = parseFloat(data[i][j]) && j>0 ? Math.floor(parseFloat(data[i][j])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","): data[i][j])
     result['key']=i
     arr.push(result)
   }

@@ -111,7 +111,7 @@ function MenuEscenarios() {
 
         if(pef){
           let pefValues=[]
-          const {data}=await obtainDemoTotal(`${escQuery},PEF`, makeQuery(seriesSelec), true)
+          const {data}=await obtainDemoTotal(`${escQuery},PEF`, makeQuery(seriesSelec), false)
           pefValues.push(Object.values(data[data.length-1]))
           if(cocPEF){    
             dataArr.flat(2).forEach(d=>{
@@ -310,60 +310,6 @@ function MenuEscenarios() {
     setActuales(value)
   }
 
-  // function handleChangeCuentas(value) {
-  //   setCuentas(value)
-  //   if(value.includes("nocionales")){
-  //     if(escenario1!==["PRL1", "PRL2", "PRL3"]){
-  //       let arr=["PRL1", "PRL2", "PRL3"]
-  //       setEscenario1(arr)
-  //     }
-  //     if(!escenario2.includes("CSI")){
-  //       let arr=escenario2
-  //       arr.push("CSI")
-  //       setEscenario2(arr)
-  //     }
-  //     if(!seriesSelec.includes("Flujos Egresos Total")){
-  //       let arr=seriesSelec
-  //       arr.push("Flujos Egresos Total")
-  //       setSeriesSelec(arr)
-  //     }
-  //     if(!actuales.includes("Flujos Egresos Total")){
-  //       let arr=actuales
-  //       arr.push("Flujos Egresos Total")
-  //       setActuales(arr)
-  //     }
-  //   }else {
-  //     let arr=["SSI"]
-  //     setEscenario2(arr)
-  //   }
-  //   if(value.includes("individuales")){
-  //     let prls=[]
-  //     prls.push("PRL1", "PRL2", "PRL3")
-  //     setEscenario1(prls)
-  //     console.log(escenario2)
-  //     if(!escenario2.includes("SSI")){
-  //       let arr=escenario2
-  //       arr.push("SSI")
-  //       setEscenario2(arr)
-  //     }
-  //     if(!seriesSelec.includes("Flujos Egresos Total")){
-  //       let arr=seriesSelec
-  //       arr.push("Flujos Egresos Total")
-  //       setSeriesSelec(arr)
-  //     }
-  //     if(!actuales.includes("Flujos Egresos Total")){
-  //       let arr=actuales
-  //       arr.push("Flujos Egresos Total")
-  //       setActuales(arr)
-  //     }
-
-  //   } else {
-  //     let arr=["CSI"]
-  //     setEscenario2(arr)
-  //   }
-  //   console.log(value)
-  // }
-
   function graphPEF(){
     if(!dataPEF){
       setPef(true)
@@ -395,6 +341,13 @@ function MenuEscenarios() {
   }
 
   return (
+    <>
+    {loading ?
+      <div style={{ height: 600, width: "100%", margin: "25% 0 0 45%" }}>
+        <Spin tip="Cargando...">
+        </Spin>
+      </div>
+      :
     <div>
       <Row justify="space-between">
         <Col>
@@ -413,27 +366,6 @@ function MenuEscenarios() {
       <Row>
       <Col sm={24} md={24} lg={16} xl={8} xxl={8}>
         <Row>
-          {/* <Col>
-          <Text>Cuentas Nocionales/Individuales</Text><br/>
-          <Select
-              showSearch
-              style={{ width: 200 }}
-              placeholder="Search to Select"
-              mode="multiple"
-              value={cuentas}
-              optionFilterProp="children"
-              onChange={handleChangeCuentas}
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-              filterSort={(optionA, optionB) =>
-                optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
-              }
-            >
-              <Option value="nocionales">Cuentas Nocionales</Option>
-              <Option value="individuales">Cuentas Individuales</Option>
-            </Select><br/>
-          </Col> */}
           <Col>
           <Text>Escenario actual</Text>
         <br/>
@@ -519,7 +451,7 @@ function MenuEscenarios() {
           </Space>
           <br/>
           <Checkbox onChange={graphPEF} checked={dataPEF}>PEF</Checkbox>
-          <Checkbox onChange={cocientePEF}>PEF como cociente</Checkbox>
+          <Checkbox onChange={cocientePEF} checked={cocPEF}>PEF como cociente</Checkbox>
           <Checkbox onChange={sumTot} checked={sum}>Sumar entidades</Checkbox>
           <br/>
 
@@ -535,13 +467,8 @@ function MenuEscenarios() {
 
       <Row>
         <Col sm={24}>
-          {loading ?
-            <div style={{ height: 600, width: "100%", margin: "25% 0 0 45%" }}>
-              <Spin tip="Cargando...">
-              </Spin>
-            </div>
-            :
-            data ?
+
+            {data ?
               <LineasChart title="Escenario pensionario" data={data} series={seriesGraph} entidades={sum ? ["Total"] :entidad} dataPEF={dataPEF} cocPEF={cocPEF} />
               :
               <Empty
@@ -554,6 +481,8 @@ function MenuEscenarios() {
       </Row>
 
     </div>
+              }
+              </>
   )
 }
 

@@ -138,6 +138,13 @@ function MenuDemograficos() {
 
 
     return (
+      <>
+      {loading ?
+        <div style={{height:600, width:"100%", margin:"25% 0 0 45%"}}>
+        <Spin tip="Cargando...">
+        </Spin>
+                  </div>
+                  :
         <div>
             <Row justify="space-between">
                 <Col>
@@ -160,13 +167,8 @@ function MenuDemograficos() {
             </Row>
             <Row>
                 <Col sm={24}>
-                {loading ?
-                            <div style={{height:600, width:"100%", margin:"25% 0 0 45%"}}>
-                            <Spin tip="Cargando...">
-                            </Spin>
-                                      </div>
-                                      :
-                                      data ?
+
+                                     { data ?
                                       
                 <BarrasChart data={data} series={seriesGraph} entidades={entidades}/>
             :    
@@ -181,6 +183,8 @@ function MenuDemograficos() {
 
 
         </div>
+}
+</>
     )
 }
 

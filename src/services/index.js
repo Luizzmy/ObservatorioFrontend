@@ -14,8 +14,14 @@ export const obtainDemo = (escenario, series, edos, sum) =>
 export const obtainDemoTotal = (escenario, series, sum) =>
   service.get(`/demoResumen/${escenario}/${series}/${sum}`)
 
-export const obtainResumenAct = () =>
-  service.get(`/resumenAct`)
+export const obtainResumenAct = (escenario) =>
+  service.get(`/resumenAct/${escenario}`)
 
-export const obtainResumenEdo = () =>
-  service.get(`/resumenEdo`)
+export const obtainResumenActEdos = (escenario, edos) =>
+  service.get(`/resumenAct/${escenario}/${edos}`)
+
+export const obtainResumenEdo = (escenario) =>
+  service.get(`/resumenEdo/${escenario}`)
+
+export const obtainResumenEdoEdos = (escenario, edos) =>
+  service.get(`/resumenEdo/${escenario}/${edos}`)

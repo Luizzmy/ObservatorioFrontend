@@ -38,10 +38,6 @@ function ModifiedText({ text, leyes, data, leyAct, estadoAct, datatot }) {
     }
 
     const handleOnClick = (articulo, ley) => {
-        if(ley){
-            console.log(ley)
-        }
-        console.log(articulo)
         setArticulo(articulo)
         setIsModalVisible(true)
     }
@@ -81,11 +77,6 @@ function ModifiedText({ text, leyes, data, leyAct, estadoAct, datatot }) {
                         // Keep matching till no more matches found
                         if (index !== undefined) {
                             newWords.push(e.substr(0, index));
-                            console.log(e.substr(index + wordLength, 1))
-                            console.log(isNumeric(e.substr(index + wordLength, 1)))
-                            console.log(typeof e.substr(index + wordLength, 1))
-                            console.log(e.substr(index + wordLength, 1) === " ")
-
                             //First conditional if word is an article
                             if (word.toLowerCase().normalize("NFD")
                                 .replace(/[\u0300-\u036f]/g, "")

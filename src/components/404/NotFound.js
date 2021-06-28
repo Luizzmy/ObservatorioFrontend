@@ -3,7 +3,7 @@ import React from 'react';
 function NotFound() {
   return (
     <div>
-      {/* <h2>Not found</h2> */}
+      <h2>La página que esta buscando no se ha encontrado</h2> 
     </div>
   );
 }

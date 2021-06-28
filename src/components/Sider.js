@@ -9,14 +9,18 @@ import {
     AreaChartOutlined
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { useContextData } from '../hooks/context'
+import { logoutFn } from '../services/auth'
 
 const { SubMenu } = Menu;
 
 
 const { Sider } = Layout;
 
-function SiderMenu() {
+function SiderMenu({history}) {
     const [collapsed, setCollapsed] = useState(false)
+
+    const { user, logout } = useContextData()
 
     const onCollapse = () => {
         if (collapsed) {
@@ -26,6 +30,15 @@ function SiderMenu() {
         }
 
     }
+
+    async function handleLogout() {
+        await logoutFn()
+        logout()
+        console.log(history)
+
+      }
+
+
     return (
         <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
             <div className="logo" style={{backgroundColor: "rgba(255, 255, 255, 0.6)"}}>
@@ -73,10 +86,10 @@ function SiderMenu() {
                             </Link>
                     </Menu.Item>
                 </SubMenu>
-                <Menu.Item key="6" icon={<FileOutlined />}>
+                {/* <Menu.Item key="6" icon={<FileOutlined />}>
                     Descargas
-            </Menu.Item>
-                <Menu.Item key="8" icon={<LogoutOutlined />}>
+            </Menu.Item> */}
+                <Menu.Item key="8" icon={<LogoutOutlined />} onClick={handleLogout}>
                     Cerrar sesión
             </Menu.Item>
             </Menu>

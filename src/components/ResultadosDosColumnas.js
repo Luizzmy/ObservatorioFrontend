@@ -20,6 +20,7 @@ function ResultadosDosColumnas({data, leyesObjs, datatot}) {
     const [articulos, setArticulos] = useState([])
     const [selected, setSelected] = useState()
 
+
     useEffect(() => {
         function getLeyes(data){
             let res=[]
