@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Col, Row, Typography, Space, Select, Empty, Spin, Button } from 'antd'
-import { obtainDemo, obtainDemoTotal } from '../services'
+import { obtainDemoTotal } from '../services'
 import BarrasChart from './BarrasChart'
 import { CSVLink } from "react-csv";
 
@@ -71,7 +71,7 @@ function MenuDemograficos() {
                 tabla.forEach(e=>{
                   arr.push(e.replace(searchRegExp, replaceWith))
                 })
-                const { data } = await obtainDemoTotal("demo", arr.join(","), false)
+                const { data } = await obtainDemoTotal("demo", arr.join(","), false, .01)
                 let dataArr=[]
                 let series=[]
                 data.forEach(e=>{
@@ -117,7 +117,7 @@ function MenuDemograficos() {
     return(
       <Select
       showSearch
-      style={{ width: 400 }}
+      style={{ width: "100%" }}
       placeholder="Search to Select"
       mode="multiple"
       defaultValue={tabla}
@@ -146,11 +146,14 @@ function MenuDemograficos() {
                   </div>
                   :
         <div>
-            <Row justify="space-between">
-                <Col>
-                <Text>Variables</Text>
+            <Row>
+
+            {/* </Row>
+            <Row> */}
+                <Col xs={24} sm={24} md={12} lg={9} xl={7} xxl={5}>
+                <MenuTablas/>
                 </Col>
-                <Col>
+                <Col xs={26} sm={24} md={12} lg={10} xl={8} xxl={4}>
           <div style={{ marginRight: "5rem" }}>
             {csvReport ?
               <CSVLink {...csvReport}><Button type="primary" >Descargar CSV</Button></CSVLink>
@@ -161,12 +164,7 @@ function MenuDemograficos() {
         </Col>
             </Row>
             <Row>
-                <Col>
-                <MenuTablas/>
-                </Col>
-            </Row>
-            <Row>
-                <Col sm={24}>
+                <Col xs={24} >
 
                                      { data ?
                                       

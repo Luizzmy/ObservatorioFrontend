@@ -46,7 +46,7 @@ function MenuEnts() {
     return (
       <Select
         showSearch
-        style={{ width: 250 }}
+        style={{ width: "100%" }}
         placeholder="Mostrando total cuando esta vacio"
         mode="multiple"
         value={edos}
@@ -100,12 +100,12 @@ function MenuEnts() {
     return (
         <div>
             <Row>
-            <Space>
+            {/* <Space> */}
 
-                <Col>
+                <Col xs={24} md={8} lg={10} xl={8} xxl={4}>
                 <Select
               showSearch
-              style={{ width: 250 }}
+              style={{ width: "100%" }}
               placeholder="Search to Select"
               value={escenario}
               optionFilterProp="children"
@@ -126,17 +126,17 @@ function MenuEnts() {
             </Select>
                
                 </Col>
-                <Col>
+                <Col xs={24} md={8} lg={10} xl={8} xxl={4}>
             <MenuEnts />
                 </Col>
-                <Col>
+                <Col xl={8} xxl={4}>
                 {data ?
                 <CSVdownload data={data}/>
                 :
                 null
 }
                 </Col>
-                </Space>
+                {/* </Space> */}
 
             </Row>
             

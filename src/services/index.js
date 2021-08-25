@@ -8,11 +8,11 @@ const service = axios.create({
   baseURL
 });
 
-export const obtainDemo = (escenario, series, edos, sum) =>
-  service.get(`/demoResumen/${escenario}/${series}/${edos}/${sum}`)
+export const obtainDemo = (escenario, series, edos, sum, rate) =>
+  service.get(`/demoResumen/${escenario}/${series}/${edos}/${sum}/${rate}`)
 
-export const obtainDemoTotal = (escenario, series, sum) =>
-  service.get(`/demoResumen/${escenario}/${series}/${sum}`)
+export const obtainDemoTotal = (escenario, series, sum, rate) =>
+  service.get(`/demoResumen/${escenario}/${series}/${sum}/${rate}`)
 
 export const obtainResumenAct = (escenario) =>
   service.get(`/resumenAct/${escenario}`)

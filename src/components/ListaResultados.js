@@ -30,41 +30,6 @@ function ListaResultados({tipo, words}) {
         getData()
     }, [])
 
-    // useEffect(() => {
-    //   if (files) {
-
-    //     fetch('/leyes_edos.zip',)
-    //     .then(function (response){
-    //         console.log(response)
-    //         JSZip.loadAsync(response)
-
-    //     })
-
-    //     JSZip.loadAsync(f) // 1) read the Blob
-    //     .then((zip) => {
-    //         const contents = [];
-    //         zip.forEach((relativePath, zipEntry) => {  // 2) print entries
-    //           contents.push(zipEntry.name);
-    //         });
-    //         // const loadTime = moment(new Date()).diff(moment(dateBefore));
-    //         setFileInfo({
-    //         //   loadTime,
-    //           contents: contents.sort(),
-    //           error: null
-    //         });
-    //     }, (e) => {
-    //     //   const loadTime = moment(new Date()).diff(moment(dateBefore));
-    //       setFileInfo({
-    //         // loadTime,
-    //         contents: [],
-    //         error: "Error reading " + f.name + ": " + e.message
-    //       });
-    //     })
-    //     // .then(()=>{
-    //     //     console.log(fileInfo)
-    //     // });
-    //   }
-    // }, [files]);
 
     useEffect(() => {
         function matchLaws(){

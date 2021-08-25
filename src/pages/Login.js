@@ -47,7 +47,8 @@ function Login({ history }) {
 
       </Row>
       <Row align="middle" justify="space-around">
-        <Col flex="center">
+        <Col flex="center" xs={20} md={16} lg={12} xl={8} xxl={6}>
+          <br/>
           <h1>Observatorio de Pensiones en México</h1>
           <Form layout="vertical" form={form} onFinish={handleSubmit}>
             <Form.Item name='userName' label="Usuario:" rules={[{ required: true, type: 'email', message: 'please input your email' }]}>

@@ -52,7 +52,6 @@ function LineasChart({ title, data, series, entidades, dataPEF, cocPEF }) {
             }
         })
     }
-    console.log(series)
     series.forEach(e => {
         datasetArr.push(
             {
@@ -100,7 +99,7 @@ function LineasChart({ title, data, series, entidades, dataPEF, cocPEF }) {
                             x: 'fecha',
                             y: `${d}`,
                             itemName: 'fecha',
-                            tooltip: [`${e}`],
+                            tooltip: [1],
                         }
                     }
                 )
@@ -118,11 +117,14 @@ function LineasChart({ title, data, series, entidades, dataPEF, cocPEF }) {
 
             const option = {
                 dataset: datasetArr,
-                // title: {
-                //     text: title
-                // },
+                grid:{
+                    left:"25%"
+                },
                 legend: {
                     show: true,
+                    type:"scroll",
+                    scrollDataIndex:0,
+                    padding: 0,
                 },
                 tooltip: {
                     trigger: 'axis'
@@ -133,38 +135,22 @@ function LineasChart({ title, data, series, entidades, dataPEF, cocPEF }) {
                 },
                 yAxis: {
                     type: "value",
+                    scale:true,
                     axisLabel: {
                         formatter: function (value, index) {
                             if(cocPEF){
                                 return value + "%"
                             } else {
                                 if (value > 500000) {
-                                    return (value / 1000000 + " M").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                                    return (value / 1000000 + "M").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                                 } else
                                     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                             }
                             }
 
                     },
-                    // name: 'egresos_pcp'
                 },
-                series: seriesArr
-                //     {
-                //         type: 'line',
-                //         datasetId: 'dataset_since_2019',
-                //         showSymbol: false,
-                //         name: `${series}`,
-                //         itemStyle: {
-                //             color: "#306151"
-                //         },
-                //         encode: {
-                //             x: 'fecha',
-                //             y: `${series}`,
-                //             itemName: 'fecha',
-                //             tooltip: [`${series}`],
-                //         }
-                //     }
-
+                series: seriesArr,
             };
             setOptions(option)
 
@@ -178,10 +164,10 @@ function LineasChart({ title, data, series, entidades, dataPEF, cocPEF }) {
     return (
         <div>
             {options ?
-                <div style={{ textAlign: "right" }}>
+                <div style={{ textAlign: "right", display:"flex", flexDirection:"column", alignItems:"center"}}>
                     <ReactECharts
                         option={options}
-                        style={{ height: 600, width: "100%" }}
+                        style={{ height: "50vh", width: "100%" }}
                     />
                 </div>
                 : <Space size="middle">

@@ -31,11 +31,12 @@ function ModifiedText({ text, leyes, data, leyAct, estadoAct, datatot }) {
 
 
     let allLeyes = []
-    for (let i in datatot) {
+    for (let i in datatot) {    
         for (let j in datatot[i]) {
             allLeyes.push(j)
         }
     }
+
 
     const handleOnClick = (articulo, ley) => {
         setArticulo(articulo)

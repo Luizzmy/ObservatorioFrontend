@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {Col, Row, List, Button} from 'antd'
+import {Col, Row, List, Button, Input} from 'antd'
 import ModifiedText from './ModifiedText'
 
 function makeArticulos(name){
@@ -15,14 +15,21 @@ function makeArticulos(name){
 
 
 function ResultadosDosColumnas({data, leyesObjs, datatot}) {
+  
+
+
 
     const [leyes, setLeyes] = useState([])
     const [articulos, setArticulos] = useState([])
+    const [allArticulos, setAllArticulos] = useState([])
+    const [rest, setRest] = useState([])
     const [selected, setSelected] = useState()
+    const [words, setWords] = useState(null)
 
 
     useEffect(() => {
         function getLeyes(data){
+          console.log(data)
             let res=[]
             for(let i in data){
                 res.push({
@@ -31,22 +38,73 @@ function ResultadosDosColumnas({data, leyesObjs, datatot}) {
                 })
             }
             setLeyes(res)
-            setArticulos(makeArticulos(res[0].articulos))
+            setAllArticulos(makeArticulos(res[0].articulos))
+            setArticulos(makeArticulos(res[0].articulos).slice(0,5))
+            setRest(makeArticulos(res[0].articulos).slice(5,makeArticulos(res[0].articulos).length-1))
             setSelected(res[0])
         }
         getLeyes(data)
-    }, [])
+    }, [data])
+
+    
 
     const handleOnClick=(name)=>{
-        console.log(name)
-        setArticulos(makeArticulos(name.articulos))
+        setArticulos(makeArticulos(name.articulos).slice(0,5))
+        setRest(makeArticulos(name.articulos).slice(5,makeArticulos(name.articulos).length-1))
         setSelected(name)
     }
+
+    function onLoadMore(){
+      if(articulos.length<6)
+      setArticulos(articulos.concat(rest))
+    }
+
+    useEffect(() => {
+      function matchLaws(){
+          let res=[]
+          if(words && allArticulos){
+              let wordsarr=words.split(" ")
+              allArticulos.forEach(l => {
+                  if(wordsarr.every(w=>l.contenido.texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                  .includes(w.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")))){
+                      res.push(l)
+                  }
+              });
+              const unique = res.filter((v, i, a) => a.indexOf(v) === i)
+              setArticulos(unique)
+          }
+          else{
+              setArticulos(allArticulos)
+          }
+      }
+      matchLaws()
+  }, [words, allArticulos])
+  
+    const loadMore=( <div
+      style={{
+        textAlign: 'center',
+        marginTop: 12,
+        height: 32,
+        lineHeight: '32px',
+      }}
+    >
+      <Button className onClick={onLoadMore}>Ver todos</Button>
+    </div>)
+
+const handleChange = e => {
+  setWords(e.target.value)
+  console.log(e.target.value)
+};
+
+
+const handleSearch = (value) => {
+  console.log(value)
+}
 
     return (
         <div>
             <Row>
-                <Col sm={12}>
+                <Col xs={{ span: 24}} sm={{ span: 24}} md={{ span: 11}} lg={{ span: 11}} xl={{ span: 10}} xxl={{ span: 10}} >
                 {leyes ? <List
     itemLayout="horizontal"
     dataSource={leyes}
@@ -63,10 +121,15 @@ function ResultadosDosColumnas({data, leyesObjs, datatot}) {
   /> 
   : null}
                 </Col>
-                <Col sm={12}>
-                {articulos ? <List
+                <Col xs={{ span: 24}} sm={{ span: 24}} md={{ span: 12, offset: 1}}  lg={{ span: 12, offset: 1}} xl={{ span: 12, offset: 1}} xxl={{ span: 12, offset: 1 }}>
+                  
+                {articulos ?
+                <> 
+            <Input.Search size="large" onChange={handleChange} placeholder={"Buscar por palabras clave"}  onSearch={handleSearch} enterButton />
+            <List
     itemLayout="horizontal"
     dataSource={articulos}
+    loadMore={loadMore}
     renderItem={item => (
       <List.Item >
         <List.Item.Meta
@@ -77,7 +140,8 @@ function ResultadosDosColumnas({data, leyesObjs, datatot}) {
         />
       </List.Item>
     )}
-  /> 
+  />
+  </>
   : null}
                 </Col>
             </Row>

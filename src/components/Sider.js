@@ -40,10 +40,10 @@ function SiderMenu({history}) {
 
 
     return (
-        <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
+        <Sider collapsible collapsed={collapsed} breakpoint="lg" onCollapse={onCollapse}>
             <div className="logo" style={{backgroundColor: "rgba(255, 255, 255, 0.6)"}}>
             <img
-                height="80px"
+                height="65rem"
                 src="https://slack-imgs.com/?c=1&o1=ro&url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2Ff%2Ff9%2FLogo_BID_Espa%25C3%25B1ol.png%2F1200px-Logo_BID_Espa%25C3%25B1ol.png"/>
             </div>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
